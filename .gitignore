@@ -3,23 +3,23 @@
 # ============================================================
 
 # --- Backend (Maven / Java) ---
-integration_ia_systeme_gestsco/target/
-integration_ia_systeme_gestsco/bin/
-integration_ia_systeme_gestsco/build/
+backend/target/
+backend/bin/
+backend/build/
 *.class
 *.jar
 *.war
 *.ear
 
 # --- Frontend (Angular / Node) ---
-integration_ia_front/node_modules/
-integration_ia_front/dist/
-integration_ia_front/tmp/
-integration_ia_front/out-tsc/
-integration_ia_front/.angular/
-integration_ia_front/coverage/
-integration_ia_front/e2e/*.js
-integration_ia_front/e2e/*.map
+frontend/node_modules/
+frontend/dist/
+frontend/tmp/
+frontend/out-tsc/
+frontend/.angular/
+frontend/coverage/
+frontend/e2e/*.js
+frontend/e2e/*.map
 npm-debug.log
 testem.log
 
