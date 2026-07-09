@@ -1,0 +1,69 @@
+<div class="card">
+    <div class="card-header card-header-primary">
+        <h4 class="card-title" *ngIf=!update> Enregistrement d'un profil</h4>
+        <h4 class="card-title" *ngIf=update>Modification d'un profil</h4>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            
+            <div class="card-body">
+                <div class="alert alert-rose alert-dismissible fade show" role="alert" *ngIf="error">
+                    <strong>{{errorMessage}}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeError()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="">Intitule</label>
+                            <input class="form-control" type="text" [(ngModel)]="profil.intitule" name="intitule">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Statut</label>
+                            <select class="form-control" [(ngModel)]="profil.statut" name="statut">
+                                <option value="ACTIVE">ACTIVÉ</option>
+                                <option value="DESACTIVE">DESACTIVÉ</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="">Description</label>
+                            <textarea class="form-control" [(ngModel)]="profil.description" name="description" id=""
+                            rows="1"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Habilitations
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        {{panelOpenState ? 'Veuillez cocher les roles que vous souhaitez attribuer au profil' : ''}}
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <div class="bg-top navbar-light" *ngIf="isDataLoaded">
+                                    <div class="container">
+                                        <app-simple-TreeView [sentData]="nodeData" (messageEvent)="receiveMessage($event)"></app-simple-TreeView>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+                        </div>
+                    </div>    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<mat-dialog-actions align="end">
+    <!-- <button class="btn btn-danger" [mat-dialog-close]="true">Retour</button> -->
+    <button mat-raised-button type="submit" class="btn btn-primary pull-right"
+                    (click)="onSubmit()">Enregistrer</button>
+</mat-dialog-actions>

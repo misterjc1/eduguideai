@@ -1,0 +1,4 @@
+<app-session-data-table *ngIf="isDataLoaded" [datatable]="datatable"> </app-session-data-table>
+<div style="width: 20%; margin: auto; height: 100px; margin-top: 15px;">
+    <mat-spinner *ngIf="!isDataLoaded" class="custom-spinner" diameter="60" color="primary"></mat-spinner>
+</div>

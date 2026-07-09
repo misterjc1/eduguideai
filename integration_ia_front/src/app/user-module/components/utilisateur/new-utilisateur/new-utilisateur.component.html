@@ -1,0 +1,107 @@
+<div class="nu-dialog">
+
+  <!-- Header -->
+  <div class="nu-header">
+    <div class="nu-header-icon">
+      <mat-icon>{{ isEdit ? 'edit' : 'person_add' }}</mat-icon>
+    </div>
+    <div>
+      <h2 class="nu-title">{{ isEdit ? 'Modifier l\'utilisateur' : 'Nouvel utilisateur' }}</h2>
+      <p class="nu-sub">{{ isEdit ? 'Modifiez les informations du compte' : 'Créez un nouveau compte utilisateur' }}</p>
+    </div>
+  </div>
+
+  <!-- Erreur -->
+  <div class="nu-error" *ngIf="errorMessage">
+    <mat-icon>error_outline</mat-icon>
+    <span>{{ errorMessage }}</span>
+    <button class="nu-error-close" (click)="errorMessage=''">×</button>
+  </div>
+
+  <!-- Chargement profils -->
+  <div *ngIf="isLoading" class="nu-loading">
+    <mat-spinner diameter="24"></mat-spinner>
+    <span>Chargement...</span>
+  </div>
+
+  <!-- Formulaire -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="!isLoading" class="nu-form">
+
+    <!-- Identifiants -->
+    <div class="nu-section-title">Identifiants de connexion</div>
+    <div class="nu-row">
+      <mat-form-field appearance="outline" class="nu-field">
+        <mat-label>Nom d'utilisateur</mat-label>
+        <mat-icon matPrefix>person</mat-icon>
+        <input matInput formControlName="username" placeholder="ex: alice.kabore">
+        <mat-error *ngIf="form.get('username')?.hasError('required')">Requis</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="nu-field">
+        <mat-label>{{ isEdit ? 'Nouveau mot de passe (laisser vide = inchangé)' : 'Mot de passe' }}</mat-label>
+        <mat-icon matPrefix>lock</mat-icon>
+        <input matInput type="password" formControlName="password" placeholder="{{ isEdit ? '(inchangé)' : '6 caractères minimum' }}">
+        <mat-error *ngIf="form.get('password')?.hasError('required')">Requis</mat-error>
+        <mat-error *ngIf="form.get('password')?.hasError('minlength')">6 caractères minimum</mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Contact -->
+    <div class="nu-section-title">Informations de contact</div>
+    <div class="nu-row">
+      <mat-form-field appearance="outline" class="nu-field">
+        <mat-label>Email</mat-label>
+        <mat-icon matPrefix>email</mat-icon>
+        <input matInput type="email" formControlName="email" placeholder="exemple@domaine.com">
+        <mat-error *ngIf="form.get('email')?.hasError('required')">Requis</mat-error>
+        <mat-error *ngIf="form.get('email')?.hasError('email')">Email invalide</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="nu-field">
+        <mat-label>Téléphone</mat-label>
+        <mat-icon matPrefix>phone</mat-icon>
+        <input matInput type="tel" formControlName="phone" placeholder="+226 XX XX XX XX">
+      </mat-form-field>
+    </div>
+
+    <!-- Rôle et Profil -->
+    <div class="nu-section-title">Rôle et Profil</div>
+    <div class="nu-row">
+      <mat-form-field appearance="outline" class="nu-field">
+        <mat-label>Type d'utilisateur</mat-label>
+        <mat-icon matPrefix>badge</mat-icon>
+        <mat-select formControlName="type">
+          <mat-option *ngFor="let t of userTypes" [value]="t.value">
+            {{ t.label }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('type')?.hasError('required')">Requis</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="nu-field">
+        <mat-label>Profil d'accès</mat-label>
+        <mat-icon matPrefix>admin_panel_settings</mat-icon>
+        <mat-select formControlName="profil">
+          <mat-option [value]="null">— Aucun profil —</mat-option>
+          <mat-option *ngFor="let p of profils" [value]="p">
+            {{ p.intitule }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+  </form>
+
+  <!-- Actions -->
+  <div class="nu-actions">
+    <button class="nu-btn nu-btn-cancel" type="button" (click)="onCancel()" [disabled]="isSaving">
+      Annuler
+    </button>
+    <button class="nu-btn nu-btn-save" type="button" (click)="onSubmit()" [disabled]="isSaving || isLoading">
+      <mat-spinner *ngIf="isSaving" diameter="16"></mat-spinner>
+      <mat-icon *ngIf="!isSaving">{{ isEdit ? 'save' : 'person_add' }}</mat-icon>
+      {{ isSaving ? 'Enregistrement...' : (isEdit ? 'Modifier' : 'Créer le compte') }}
+    </button>
+  </div>
+
+</div>

@@ -1,0 +1,203 @@
+:host { display: block; }
+
+.ap-root {
+  background: #F8FAFC;
+  min-height: 100%;
+  font-family: 'Inter','Roboto',sans-serif;
+}
+
+.ap-page {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 24px 24px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── En-tête ── */
+.ap-header {
+  display: flex; align-items: center; gap: 16px;
+  padding-bottom: 18px; border-bottom: 1px solid #E2E8F0;
+}
+.ap-icon {
+  width: 48px; height: 48px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.ap-icon.blue { background: #EEF2FF; color: #1565C0; }
+.ap-icon mat-icon { font-size: 26px; width: 26px; height: 26px; }
+.ap-title { font-size: 18px; font-weight: 700; color: #1E293B; margin: 0 0 3px; }
+.ap-sub { font-size: 13px; color: #64748B; margin: 0; }
+
+/* ── Carte générique ── */
+.ap-card {
+  background: #fff;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.ap-card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 18px; background: #F8FAFC;
+  border-bottom: 1px solid #E2E8F0;
+}
+.ap-card-title {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 600; color: #374151;
+}
+.ap-card-title mat-icon { font-size: 17px; width: 17px; height: 17px; color: #1565C0; }
+
+/* ── Bloc étudiant ── */
+.ap-student-block { padding: 16px 18px; }
+.ap-student-chip {
+  display: flex; align-items: center; gap: 12px;
+  background: #EEF2FF; border: 1px solid #C7D7F8;
+  border-radius: 10px; padding: 12px 16px;
+}
+.ap-student-chip mat-icon { color: #1565C0; font-size: 22px; }
+.ap-student-info { display: flex; flex-direction: column; }
+.ap-student-info strong { font-size: 14px; color: #1E293B; }
+.ap-student-info span { font-size: 12px; color: #64748B; margin-top: 2px; }
+
+/* ── Label ── */
+.ap-label {
+  display: flex; align-items: center;
+  font-size: 13px; font-weight: 600; color: #374151;
+  margin-bottom: 10px;
+}
+
+/* ── Badge moyenne ── */
+.ap-avg-badge { font-size: 13px; color: #64748B; }
+.ap-avg-badge strong { color: #1565C0; }
+
+/* ── Loading / Empty ── */
+.ap-loading {
+  display: flex; align-items: center; gap: 10px;
+  padding: 20px 18px; color: #64748B; font-size: 13px;
+}
+.ap-empty {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 8px; padding: 32px; color: #94A3B8; font-size: 13px; text-align: center;
+}
+.ap-empty mat-icon { font-size: 36px; width: 36px; height: 36px; }
+
+/* ── Notes list ── */
+.ap-notes-list { max-height: 260px; overflow-y: auto; }
+.ap-note-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 18px; position: relative;
+  border-bottom: 1px solid #F1F5F9; transition: background 0.1s;
+}
+.ap-note-item:last-child { border-bottom: none; }
+.ap-note-item:hover { background: #F8FAFC; }
+.ap-note-bar {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px; border-radius: 0 3px 3px 0; opacity: 0.7;
+}
+.ap-note-module { flex: 1; font-size: 13px; color: #374151; padding-left: 8px; }
+.ap-note-sem { font-size: 11.5px; color: #94A3B8; min-width: 80px; text-align: center; }
+.ap-note-val { font-size: 13px; min-width: 52px; text-align: right; }
+
+/* ── Hint multi-select ── */
+.ap-hint-multi {
+  font-size: 12px; color: #94A3B8; font-style: italic;
+}
+
+/* ── Objectifs ── */
+.ap-obj-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+  padding: 14px 18px;
+}
+.ap-obj-card {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px; border: 1.5px solid #E2E8F0;
+  border-radius: 10px; cursor: pointer; font-size: 13px;
+  color: #374151; background: #FAFAFA; transition: all 0.15s;
+}
+.ap-obj-check { font-size: 17px !important; width: 17px !important; height: 17px !important; color: #CBD5E1; flex-shrink: 0; }
+.ap-obj-icon { font-size: 17px !important; width: 17px !important; height: 17px !important; color: #94A3B8; flex-shrink: 0; }
+.ap-obj-card:hover { border-color: #1565C0; background: #F0F4FF; }
+.ap-obj-active { border-color: #1565C0 !important; background: #EEF2FF !important; color: #1565C0 !important; }
+.ap-obj-active .ap-obj-check { color: #1565C0 !important; }
+.ap-obj-active .ap-obj-icon { color: #1565C0 !important; }
+
+/* ── Actions ── */
+.ap-actions {
+  display: flex; gap: 12px; align-items: center;
+  padding: 14px 18px; border-top: 1px solid #F1F5F9;
+}
+.ap-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 22px; border-radius: 10px; font-size: 14px;
+  font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; font-family: inherit;
+}
+.ap-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.ap-btn-primary { background: #1565C0; color: #fff; }
+.ap-btn-primary:hover:not(:disabled) { background: #1251A3; }
+.ap-btn-secondary { background: #F1F5F9; color: #374151; }
+.ap-btn-secondary:hover:not(:disabled) { background: #E2E8F0; }
+
+/* ── Résultats ── */
+.ap-results-section {
+  display: flex; flex-direction: column; gap: 20px;
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* ── Stats ── */
+.ap-stats-row {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.ap-stat-card {
+  flex: 1; min-width: 180px; display: flex; align-items: center; gap: 14px;
+  background: #fff; border: 1px solid #E2E8F0; border-radius: 14px; padding: 16px 18px;
+}
+.ap-stat-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.ap-stat-icon mat-icon { font-size: 22px; width: 22px; height: 22px; }
+.ap-stat-val { display: block; font-size: 20px; font-weight: 800; color: #1E293B; line-height: 1.2; }
+.ap-stat-lbl { display: block; font-size: 11.5px; color: #64748B; margin-top: 3px; }
+.ap-stat-arrow mat-icon { font-size: 30px; width: 30px; height: 30px; }
+
+/* ── Table ── */
+.ap-table-wrap { overflow-x: auto; }
+.ap-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.ap-table thead tr { background: #F8FAFC; }
+.ap-table th {
+  padding: 10px 16px; text-align: left; font-weight: 600; color: #374151;
+  font-size: 12.5px; border-bottom: 1px solid #E2E8F0;
+}
+.ap-table td { padding: 10px 16px; border-bottom: 1px solid #F1F5F9; color: #374151; }
+.ap-table tbody tr:last-child td { border-bottom: none; }
+.ap-table tbody tr:hover td { background: #F8FAFC; }
+.ap-badge {
+  display: inline-block; padding: 3px 10px;
+  border-radius: 20px; font-size: 12px; font-weight: 600;
+}
+.badge-ok { background: #DCFCE7; color: #15803D; }
+.badge-fail { background: #FEE2E2; color: #DC2626; }
+
+/* ── Bloc IA ── */
+.ap-ai-block {
+  background: #fff; border: 1px solid #E2E8F0;
+  border-radius: 14px; overflow: hidden;
+}
+.ap-ai-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 18px; background: linear-gradient(135deg, #1E2A4A, #1565C0);
+  color: #fff; font-size: 13px; font-weight: 600;
+}
+.ap-ai-header mat-icon { font-size: 18px; width: 18px; height: 18px; color: #FBBF24; }
+.ap-ai-loading {
+  display: flex; align-items: center; gap: 12px;
+  padding: 20px; color: #64748B; font-size: 14px;
+}
+.ap-ai-text {
+  padding: 20px 22px; font-size: 14px; line-height: 1.8;
+  color: #374151; max-height: 400px; overflow-y: auto;
+}
+.ap-ai-text strong { color: #1E293B; }

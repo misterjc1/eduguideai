@@ -1,0 +1,105 @@
+.page-wrapper { padding: 20px; max-width: 960px; margin: 0 auto; }
+
+.chatbot-container {
+  background-color: #f8f8ff;
+  color: #333;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  font-family: Arial, sans-serif;
+}
+
+h2 {
+  color: #0056b3;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.predefined-questions ul {
+  list-style: none;
+  padding: 0;
+}
+
+.question-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.question-btn:hover {
+  background-color: #0056b3;
+}
+
+.chat-history {
+  background-color: #f1f1f1;
+  padding: 15px;
+  border-radius: 10px;
+  height: 300px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.chat-message {
+  margin-bottom: 15px;
+}
+
+.user-question {
+  color: #0056b3;
+  font-weight: bold;
+}
+
+.bot-response {
+  color: #333;
+  background-color: #e3f2fd;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 5px;
+}
+
+.user-input {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.input-field {
+  width: 80%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.send-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.send-btn:disabled {
+  background-color: #ccc;
+}
+
+.send-btn:hover:enabled {
+  background-color: #0056b3;
+}
+
+.loading {
+  text-align: center;
+}
+
+.error-message {
+  text-align: center;
+  color: red;
+  margin-top: 20px;
+}

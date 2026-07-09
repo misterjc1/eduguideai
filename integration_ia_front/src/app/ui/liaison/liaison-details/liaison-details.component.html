@@ -1,0 +1,47 @@
+<h2 mat-dialog-title>Details de la liaison</h2>
+<mat-dialog-content class="mat-typography">
+
+  <div class="row">
+    <div class="card col-md-6">
+      <div class="card-header card-header-primary">
+        <h4 class="card-title">Generalités</h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="form-group col-md-3">
+            <label for="">Inscrit</label>
+          </div>
+          <div class="form-group col-md-9">
+            <p>{{(liaison.inscrit!=null ? liaison.inscrit.nom : "" )}} {{(liaison.inscrit!=null ? liaison.inscrit.prenom : "" )}}</p>
+          </div>
+
+          <div class="form-group col-md-3">
+            <label for="">Tuteur</label>
+          </div>
+          <div class="form-group col-md-9">
+            <p>{{(liaison.utilisateur!=null ? liaison.utilisateur.nom : "" )}} {{(liaison.utilisateur!=null ? liaison.utilisateur.prenom : "" )}}</p>
+          </div>
+
+        
+          <div class="form-group col-md-3">
+            <label for="">Motif</label>
+          </div>
+          <div class="form-group col-md-9">
+            <p>{{liaison.motif}}</p>
+          </div>
+
+          <div class="form-group col-md-3">
+            <label for="">Statut</label>
+          </div>
+          <div class="form-group col-md-9">
+            <p>{{liaison.statutLiaison}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button class="btn btn-danger" [mat-dialog-close]="true">Retour</button>
+</mat-dialog-actions>

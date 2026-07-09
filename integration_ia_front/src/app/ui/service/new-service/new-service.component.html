@@ -1,0 +1,79 @@
+﻿<div class="card">
+    <div class="card-header card-header-primary">
+        <h4 class="card-title" *ngIf=!update> Enregistrement d'un service</h4>
+        <h4 class="card-title" *ngIf=update>Modification d'un service</h4>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <div class="alert alert-rose alert-dismissible fade show" role="alert" *ngIf="error">
+                    <strong>{{errorMessage}}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeError()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                </div>
+
+                <mat-dialog-content class="mat-typography">
+                    <div class="form-row">
+                        <div class="form-row col-md-12">
+
+
+                            
+
+                            <div class="form-group col-md-8">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <mat-form-field appearance="fill">
+                                            <mat-label>Sélectionnez le type de Service</mat-label>
+                                            <mat-select [(ngModel)]="service.typeService" name="type" required>
+                                                <mat-option *ngIf="service.typeService" [value]="service.typeService" disabled>
+                                                    {{ service.typeService }}
+                                                </mat-option>
+                                                <mat-option *ngFor="let option of serv" [value]="option.key">
+                                                    {{ option.value }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>Description  <span style="color: red;"></span></mat-label>
+                                            <input matInput [(ngModel)]="service.message" name="libelle">
+                                        </mat-form-field>
+                                    </div>
+                                    
+                                </div>
+                                
+                                
+                                <div class="form-group col-md-4" style="margin-top: 20px;">
+                                    <div class="text-center">
+                                        <div class="mt-img">
+                                            <img class="img-fluid" [src]="url" *ngIf="url" />
+                                        </div>
+                                        <div class="btn btn-primary" style="width: 200px; height: 40px; ">
+                                            <input type="file" (change)="selectFile($event)" name="file" id="file" class="inputfile" />
+                                            <label for="file"><strong>Charger Logo</strong></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </mat-dialog-content>
+            </div>
+        </div>
+    </div>
+</div>
+
+<mat-dialog-actions align="end">
+    <button class="btn btn-danger" [mat-dialog-close]="true">Retour</button>
+    <button class="btn btn-primary" (click)="onSubmit()" cdkFocusInitial>Enregistrer</button>
+</mat-dialog-actions>

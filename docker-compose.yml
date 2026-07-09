@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: veneem_postgres
+    environment:
+      POSTGRES_DB: wouti
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - veneem_db_data:/var/lib/postgresql/data
+      - ./init-schema.sql:/docker-entrypoint-initdb.d/01-init-schema.sql
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d wouti"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  veneem_db_data:
+    driver: local

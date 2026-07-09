@@ -1,0 +1,85 @@
+<div class="card">
+    <div class="card-header card-header-primary">
+        <h4 class="card-title" *ngIf=!update>Enregistrement d'un utilisateur</h4>
+        <h4 class="card-title" *ngIf=update>Modification d'un utilisateur</h4>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <div class="alert alert-rose alert-dismissible fade show" role="alert" *ngIf="error">
+                    <strong>{{errorMessage}}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeError()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <mat-dialog-content class="mat-typography">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Username <span style="color: red;">*</span></mat-label>
+                                <input matInput [(ngModel)]="utilisateur.username" name="username"
+                                    autocomplete="off" [readonly]="update">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-group col-md-6" *ngIf="!update">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Mot de passe <span style="color: red;">*</span></mat-label>
+                                <input matInput type="password" [(ngModel)]="utilisateur.password" name="password"
+                                    autocomplete="new-password">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Nom <span style="color: red;">*</span></mat-label>
+                                <input matInput [(ngModel)]="utilisateur.nom" name="nom">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Prénom <span style="color: red;">*</span></mat-label>
+                                <input matInput [(ngModel)]="utilisateur.prenom" name="prenom">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Téléphone</mat-label>
+                                <input matInput [(ngModel)]="utilisateur.telephone" name="telephone">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>email<span style="color: red;">*</span></mat-label>
+                                <input matInput [(ngModel)]="utilisateur.email" name="email">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Type d' utilisateur</mat-label>
+                                <mat-select [(ngModel)]="utilisateur.type" name="type">
+                                    <mat-option *ngFor="let option of typeUtilis" [value]="option.key">
+                                        {{ option.value }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </mat-dialog-content>
+            </div>
+        </div>
+    </div>
+</div>
+
+<mat-dialog-actions align="end">
+    <button class="btn btn-danger" [mat-dialog-close]="true">Retour</button>
+    <button class="btn btn-primary" (click)="onSubmit()" cdkFocusInitial>Enregistrer</button>
+</mat-dialog-actions>

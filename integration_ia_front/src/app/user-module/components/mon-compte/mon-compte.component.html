@@ -1,0 +1,79 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title"> Modification du compte</h4>
+            </div>
+            <div class="card-body">
+                <form>
+                    <span *ngIf="data.type == 'UPDATEUSER'">
+                    <div class="form-row" >
+                        <div class="form-group col-md-6">
+                            <label for="nom">Nom</label>
+                            <input class="form-control" type="text" [(ngModel)]="utilisateur.personne.nom" name="nom" >
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="prenom">Prénom</label>
+                            <input class="form-control" type="text" [(ngModel)]="utilisateur.personne.prenom"
+                                name="prenom">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="phone">Téléphone</label>
+                            <input class="form-control" type="text" [(ngModel)]="utilisateur.phone" name="phone">
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="email">E-mail</label>
+                            <input class="form-control" type="text" [(ngModel)]="utilisateur.email" name="email">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="adresse">Adresse</label>
+                            <input class="form-control" type="text" [(ngModel)]="utilisateur.personne.adresse"
+                                name="adresse">
+                        </div>
+
+                    </div>
+
+                </span>
+                <span *ngIf="data.type == 'UPDATEPASSWORD'">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <div class="alert alert-rose alert-dismissible fade show" role="alert" *ngIf="error">
+                                <strong>{{errorMessage}}</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                                    (click)="closeError()">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row" >
+
+                        <div class="form-group col-md-12">
+                            <label for="oldPassword">Mot de passe actuel</label>
+                            <input class="form-control" type="password" [(ngModel)]="credentialUpdateVo.oldPassword" name="oldPassword">
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label for="newPassword">Nouveau mot de passe</label>
+                            <input class="form-control" type="password" [(ngModel)]="credentialUpdateVo.newPassword" name="newPassword">
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label for="confirmPassword">Confirmation nouveau mot de passe</label>
+                            <input class="form-control" type="password" [(ngModel)]="confirmPassword" name="confirmPassword">
+                        </div>
+
+                    </div>
+                </span>
+                    <button mat-raised-button type="submit" class="btn btn-primary pull-right"
+                        (click)="onSubmit()">Terminer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

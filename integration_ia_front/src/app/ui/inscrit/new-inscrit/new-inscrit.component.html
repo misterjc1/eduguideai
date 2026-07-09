@@ -1,0 +1,75 @@
+﻿<div class="card">
+    <div class="card-header card-header-primary">
+        <h4 class="card-title" *ngIf=!update>Enregistrement d'un inscrit</h4>
+        <h4 class="card-title" *ngIf=update>Modification d'un inscrit</h4>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <div class="alert alert-rose alert-dismissible fade show" role="alert" *ngIf="error">
+                    <strong>{{errorMessage}}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeError()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <mat-dialog-content class="mat-typography">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Matricule <span style="color: red;">*</span></mat-label>
+                                <input matInput [(ngModel)]="inscrit.matricule" name="matricule">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Nom <span style="color: red;">*</span></mat-label>
+                                <input matInput [(ngModel)]="inscrit.nom" name="nom">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Prénom <span style="color: red;">*</span></mat-label>
+                                <input matInput [(ngModel)]="inscrit.prenom" name="prenom">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Téléphone<span style="color: red;">*</span></mat-label>
+                                <input matInput [(ngModel)]="inscrit.telephone" name="telephone">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>email<span style="color: red;">*</span></mat-label>
+                                <input matInput [(ngModel)]="inscrit.email" name="email">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="">Niveau</label>
+                            <select class="form-control" [(ngModel)]="inscrit.niveau.codeNiveau" name="" id="">
+                                <option value="">SELECTIONNER UN NIVEAU</option>
+                                <option *ngFor="let niveau of niveaux" [value]="niveau.codeNiveau">{{ niveau.libelle }} {{ niveau.filiere
+                                    }}</option>
+        
+                            </select>
+                        </div>
+            
+                    </div>
+                </mat-dialog-content>
+            </div>
+        </div>
+    </div>
+</div>
+
+<mat-dialog-actions align="end">
+    <button class="btn btn-danger" [mat-dialog-close]="true">Retour</button>
+    <button class="btn btn-primary" (click)="onSubmit()" cdkFocusInitial>Enregistrer</button>
+</mat-dialog-actions>

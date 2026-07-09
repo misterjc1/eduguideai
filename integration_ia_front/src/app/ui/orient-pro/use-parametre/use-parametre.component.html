@@ -1,0 +1,6 @@
+<h5>Pistes métiers</h5>
+<select class="styled-select" (change)="onParametreChange($event)">
+  <option *ngFor="let parametre of parametres" [value]="parametre.codeParametre">
+    {{ parametre.parametres }}
+  </option>
+</select>

@@ -1,0 +1,10 @@
+<div class="container">
+    <h2>Sélection des objectifs</h2>
+    <div class="goals">
+        <div class="goal" *ngFor="let objectif of objectifs">{{ objectif }}</div>
+    </div>
+    <div class="buttons">
+        <button class="add-button" (click)="ajouterObjectif()">Ajouter</button>
+        <button class="send-button" (click)="envoyer()">Envoyer</button>
+    </div>
+</div>

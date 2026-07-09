@@ -1,0 +1,78 @@
+﻿<div class="card">
+    <div class="card-header card-header-primary">
+        <h4 class="card-title" *ngIf=!update>Enregistrement d'une liaison</h4>
+        <h4 class="card-title" *ngIf=update>Modification d'une liaison</h4>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <div class="alert alert-rose alert-dismissible fade show" role="alert" *ngIf="error">
+                    <strong>{{errorMessage}}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeError()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <mat-dialog-content class="mat-typography">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Motif<span style="color: red;">*</span></mat-label>
+                                <input matInput [(ngModel)]="liaison.motif" name="motif">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Commentaire <span style="color: red;">*</span></mat-label>
+                                <input matInput [(ngModel)]="liaison.commentaire" name="commentaire">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="">Inscrit</label>
+                            <select class="form-control" [(ngModel)]="liaison.inscrit.codeInscrit" name="" id="">
+                                <option value="">SELECTIONNER UN INSCRIT</option>
+                                <option *ngFor="let inscrit of inscrits" [value]="inscrit.codeInscrit">{{ inscrit.matricule }}</option>
+        
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="">Utilisateur</label>
+                            <select class="form-control" [(ngModel)]="liaison.utilisateur.codeUtilisateur" name="" id="">
+                                <option value="">SELECTIONNER UN TUTEUR</option>
+                                <option *ngFor="let utilisateur of utilisateurs" [value]="utilisateur.codeUtilisateur">{{ utilisateur.nom }} {{ utilisateur.prenom }}</option>
+        
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Statut</mat-label>
+                                <mat-select [(ngModel)]="liaison.statutLiaison" name="type" required>
+                                    <mat-option *ngIf="liaison.statutLiaison" [value]="liaison.statutLiaison" disabled>
+                                        {{ liaison.statutLiaison }}
+                                    </mat-option>
+                                    <mat-option *ngFor="let option of statutLiais" [value]="option.key">
+                                        {{ option.value }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+            
+                    </div>
+                </mat-dialog-content>
+            </div>
+        </div>
+    </div>
+</div>
+
+<mat-dialog-actions align="end">
+    <button class="btn btn-danger" [mat-dialog-close]="true">Retour</button>
+    <button class="btn btn-primary" (click)="onSubmit()" cdkFocusInitial>Enregistrer</button>
+</mat-dialog-actions>

@@ -1,0 +1,230 @@
+<div class="ap-root">
+  <div class="ap-page">
+
+    <!-- ── En-tête ── -->
+    <div class="ap-header">
+      <div class="ap-icon blue"><mat-icon>insights</mat-icon></div>
+      <div>
+        <h2 class="ap-title">Analyse Prédictive des Notes</h2>
+        <p class="ap-sub">Chargez vos notes et choisissez un objectif — l'IA Gemini prédit votre trajectoire</p>
+      </div>
+    </div>
+
+    <!-- ── Sélecteur d'étudiant ── -->
+    <div class="ap-card ap-student-block">
+
+      <!-- Admin : dropdown de tous les inscrits -->
+      <div *ngIf="isAdmin || needInscritSelection">
+        <label class="ap-label">
+          <mat-icon style="font-size:16px;vertical-align:middle;margin-right:4px">person_search</mat-icon>
+          {{ isAdmin ? 'Choisir un étudiant à analyser' : 'Sélectionnez votre profil étudiant' }}
+        </label>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+          <mat-form-field appearance="outline" style="flex:1;min-width:280px;">
+            <mat-label>{{ isLoadingInscrits ? 'Chargement...' : 'Sélectionner un étudiant' }}</mat-label>
+            <mat-select [(ngModel)]="selectedInscrit" (ngModelChange)="onInscritChange($event)"
+                        [disabled]="isLoadingInscrits">
+              <mat-option *ngFor="let i of inscrits" [value]="i">
+                {{ i.nom }} {{ i.prenom }}
+                <span style="color:#94A3B8;font-size:12px"> — {{ i.matricule }}</span>
+                <span style="color:#64748B;font-size:12px" *ngIf="i.niveau?.libelle"> ({{ i.niveau.libelle }})</span>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="isLoadingInscrits" style="display:flex;align-items:center;gap:8px;color:#64748B;font-size:13px;">
+            <mat-spinner diameter="18"></mat-spinner>
+            <span>Chargement des étudiants...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Étudiant auto-détecté (non admin) -->
+      <div *ngIf="!isAdmin && !needInscritSelection && selectedInscrit" class="ap-student-chip">
+        <mat-icon>school</mat-icon>
+        <div class="ap-student-info">
+          <strong>{{ selectedInscrit.nom }} {{ selectedInscrit.prenom }}</strong>
+          <span>{{ selectedInscrit.matricule }}<ng-container *ngIf="selectedInscrit.niveau?.libelle"> · {{ selectedInscrit.niveau.libelle }}</ng-container></span>
+        </div>
+        <div *ngIf="isLoadingInscrits" style="margin-left:auto;">
+          <mat-spinner diameter="18"></mat-spinner>
+        </div>
+      </div>
+
+      <!-- Pas encore de sélection et pas admin -->
+      <div *ngIf="!isAdmin && !needInscritSelection && !selectedInscrit && isLoadingInscrits" class="ap-loading">
+        <mat-spinner diameter="20"></mat-spinner>
+        <span>Chargement de votre profil...</span>
+      </div>
+
+    </div>
+
+    <!-- ── Notes ── -->
+    <ng-container *ngIf="selectedInscrit">
+
+      <div class="ap-card">
+        <div class="ap-card-header">
+          <span class="ap-card-title">
+            <mat-icon>assignment</mat-icon> Notes disponibles
+          </span>
+          <span class="ap-avg-badge" *ngIf="notes.length > 0">
+            Moyenne : <strong>{{ moyenneNotes | number:'1.2-2' }}/20</strong>
+          </span>
+        </div>
+
+        <div *ngIf="isLoadingNotes" class="ap-loading">
+          <mat-spinner diameter="22"></mat-spinner>
+          <span>Chargement des notes...</span>
+        </div>
+
+        <div *ngIf="!isLoadingNotes && notes.length > 0" class="ap-notes-list">
+          <div *ngFor="let n of notes" class="ap-note-item">
+            <div class="ap-note-bar"
+                 [style.width.%]="(+n.valeur / 20) * 100"
+                 [style.background]="getNoteColor(+n.valeur)"></div>
+            <span class="ap-note-module">{{ n.libelle || n.module || '-' }}</span>
+            <span class="ap-note-sem">{{ n.semestre || '-' }}</span>
+            <span class="ap-note-val" [style.color]="getNoteColor(+n.valeur)">
+              <strong>{{ n.valeur }}/20</strong>
+            </span>
+          </div>
+        </div>
+
+        <div *ngIf="!isLoadingNotes && notes.length === 0" class="ap-empty">
+          <mat-icon>info_outline</mat-icon>
+          <p>Aucune note trouvée pour cet étudiant.</p>
+        </div>
+      </div>
+
+      <!-- ── Objectif ── -->
+      <div class="ap-card" *ngIf="notes.length > 0">
+        <div class="ap-card-header">
+          <span class="ap-card-title"><mat-icon>flag</mat-icon> Objectifs académiques</span>
+          <span class="ap-hint-multi">Cochez un ou plusieurs objectifs</span>
+        </div>
+        <div class="ap-obj-grid" [formGroup]="form">
+          <div *ngFor="let o of objectifs"
+               class="ap-obj-card"
+               [ngClass]="{'ap-obj-active': isObjectifSelected(o.label)}"
+               (click)="toggleObjectif(o.label)">
+            <mat-icon class="ap-obj-check">{{ isObjectifSelected(o.label) ? 'check_box' : 'check_box_outline_blank' }}</mat-icon>
+            <mat-icon class="ap-obj-icon">{{ o.icon }}</mat-icon>
+            <span>{{ o.label }}</span>
+          </div>
+        </div>
+
+        <div class="ap-actions">
+          <button class="ap-btn ap-btn-primary"
+                  [disabled]="form.invalid || isLoadingAI"
+                  (click)="runAnalysis()">
+            <mat-spinner *ngIf="isLoadingAI" diameter="18" style="margin-right:6px"></mat-spinner>
+            <mat-icon *ngIf="!isLoadingAI">auto_awesome</mat-icon>
+            {{ isLoadingAI ? 'Analyse en cours...' : 'Lancer l\'analyse IA' }}
+          </button>
+          <button *ngIf="showResults" class="ap-btn ap-btn-secondary" (click)="restart()">
+            <mat-icon>refresh</mat-icon> Réinitialiser
+          </button>
+        </div>
+      </div>
+
+      <!-- ── Résultats ── -->
+      <div class="ap-results-section" *ngIf="showResults">
+
+        <!-- Cartes stats -->
+        <div class="ap-stats-row">
+          <div class="ap-stat-card">
+            <div class="ap-stat-icon" style="background:#EEF2FF;color:#1565C0">
+              <mat-icon>bar_chart</mat-icon>
+            </div>
+            <div>
+              <span class="ap-stat-val">{{ moyenneActuelle | number:'1.2-2' }}/20</span>
+              <span class="ap-stat-lbl">Moyenne actuelle</span>
+            </div>
+          </div>
+          <div class="ap-stat-arrow">
+            <mat-icon [style.color]="moyennePredite >= moyenneActuelle ? '#22C55E' : '#EF4444'">
+              {{ moyennePredite >= moyenneActuelle ? 'trending_up' : 'trending_down' }}
+            </mat-icon>
+          </div>
+          <div class="ap-stat-card">
+            <div class="ap-stat-icon"
+                 [ngStyle]="{'background': moyennePredite >= moyenneActuelle ? '#F0FDF4' : '#FEF2F2',
+                              'color':      moyennePredite >= moyenneActuelle ? '#22C55E' : '#EF4444'}">
+              <mat-icon>auto_graph</mat-icon>
+            </div>
+            <div>
+              <span class="ap-stat-val">{{ moyennePredite | number:'1.2-2' }}/20</span>
+              <span class="ap-stat-lbl">Moyenne prédite</span>
+            </div>
+          </div>
+          <div class="ap-stat-card">
+            <div class="ap-stat-icon" style="background:#FFF7ED;color:#FF6F00">
+              <mat-icon>flag</mat-icon>
+            </div>
+            <div>
+              <span class="ap-stat-val" style="font-size:13px;line-height:1.4">{{ selectedObjectifs.join(' · ') }}</span>
+              <span class="ap-stat-lbl">Objectif(s) visé(s)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tableau récap -->
+        <div class="ap-card" *ngIf="recapTable.length > 0">
+          <div class="ap-card-header">
+            <span class="ap-card-title"><mat-icon>table_chart</mat-icon> Détail par module</span>
+          </div>
+          <div class="ap-table-wrap">
+            <table class="ap-table">
+              <thead>
+                <tr>
+                  <th>Module</th>
+                  <th>Semestre</th>
+                  <th>Note</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let r of recapTable">
+                  <td>{{ r.libelle }}</td>
+                  <td style="color:#64748B">{{ r.semestre || '-' }}</td>
+                  <td [style.color]="getNoteColor(r.valeur)"><strong>{{ r.valeur }}/20</strong></td>
+                  <td>
+                    <span class="ap-badge" [ngClass]="r.status === 'ok' ? 'badge-ok' : 'badge-fail'">
+                      {{ r.status === 'ok' ? 'Validé' : 'À renforcer' }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Analyse IA -->
+        <div class="ap-ai-block">
+          <div class="ap-ai-header">
+            <mat-icon>psychology</mat-icon>
+            <span>Analyse IA Gemini — Recommandations personnalisées</span>
+          </div>
+          <div *ngIf="isLoadingAI" class="ap-ai-loading">
+            <mat-spinner diameter="24"></mat-spinner>
+            <span>Gemini AI analyse votre profil académique...</span>
+          </div>
+          <div *ngIf="!isLoadingAI && aiAnalyse"
+               class="ap-ai-text" [innerHTML]="formatAI(aiAnalyse)">
+          </div>
+          <div *ngIf="!isLoadingAI && !aiAnalyse" class="ap-ai-text" style="color:#94A3B8;">
+            L'analyse IA sera disponible une fois le serveur IA connecté.
+          </div>
+        </div>
+
+      </div>
+    </ng-container>
+
+    <!-- Aucun étudiant sélectionné et pas en chargement -->
+    <div *ngIf="!selectedInscrit && !isLoadingInscrits && !isAdmin && !needInscritSelection" class="ap-empty" style="padding:48px;">
+      <mat-icon>account_circle</mat-icon>
+      <p>Votre profil étudiant n'a pas été trouvé automatiquement.</p>
+      <p style="font-size:12px;color:#CBD5E1">Contactez un administrateur pour associer votre compte.</p>
+    </div>
+
+  </div>
+</div>

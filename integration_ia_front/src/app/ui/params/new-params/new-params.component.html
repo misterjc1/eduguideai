@@ -1,0 +1,50 @@
+﻿<div class="card">
+    <div class="card-header card-header-primary">
+        <h4 class="card-title" *ngIf=!update> Enregistrement d'un Parametres</h4>
+        <h4 class="card-title" *ngIf=update>Modification d'un parametre</h4>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <div class="alert alert-rose alert-dismissible fade show" role="alert" *ngIf="error">
+                    <strong>{{errorMessage}}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeError()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                </div>
+
+                <mat-dialog-content class="mat-typography">
+                    <div class="form-row">
+                        <div class="form-row col-md-12">
+
+
+                            
+
+                            <div class="form-group col-md-8">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>Libellé <span style="color: red;">*</span></mat-label>
+                                            <input matInput [(ngModel)]="parametre.parametres" name="libelle">
+                                        </mat-form-field>
+                                    </div>
+                                    
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                </mat-dialog-content>
+            </div>
+        </div>
+    </div>
+</div>
+
+<mat-dialog-actions align="end">
+    <button class="btn btn-danger" [mat-dialog-close]="true">Retour</button>
+    <button class="btn btn-primary" (click)="onSubmit()" cdkFocusInitial>Enregistrer</button>
+</mat-dialog-actions>

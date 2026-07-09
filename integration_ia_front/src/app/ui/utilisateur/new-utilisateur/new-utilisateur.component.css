@@ -1,0 +1,36 @@
+
+
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+.card-body {
+    overflow: auto;
+    max-height: 450px;
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+  }
+  
+  .mt-img {
+	width: 150px; 
+	height: 220px;
+	/* border-radius: 10%;
+	border: 2px solid rgba(8, 46, 170, 0.377); */
+	margin: auto;
+  }
+  img{
+	max-height: 220px;
+  }

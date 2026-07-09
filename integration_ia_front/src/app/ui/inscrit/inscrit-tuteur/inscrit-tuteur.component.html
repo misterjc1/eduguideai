@@ -1,0 +1,50 @@
+﻿
+<h2 mat-dialog-title >Lier un inscrit au tuteur</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="row">
+        
+        <div class="form-group col-md-10">
+            <mat-form-field appearance="fill">
+                <!-- <mat-select [(ngModel)]="liaison.inscrit" name="inscrit">
+                    <mat-option *ngFor="let inscrit of inscrits" [value]="inscrit">
+                        {{inscrit.matricule}}
+                    </mat-option>
+                </mat-select> -->
+                    <mat-label>Entrer le matricule</mat-label>
+                    <input matInput [(ngModel)]="liaison.inscrit.matricule" name="matricule" placeholder="Saisir le matricule">
+                
+            </mat-form-field>
+              
+            <mat-form-field class="example-full-width">
+                <mat-label>Motif<span style="color: red;">*</span></mat-label>
+                <input matInput [(ngModel)]="liaison.motif" name="motif">
+            </mat-form-field>
+
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="">.</label>
+            <button  class="btn btn-primary" (click)="onSubmit()" cdkFocusInitial>Lier</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Liste de liaison avec les inscrits</h3>
+            <div class="main-content" style="background-color: rgb(255, 255, 255);">
+    <div class="container-fluid">
+  
+        <app-mt-data-table *ngIf="isDataLoaded" [datatable]="datatable"> </app-mt-data-table>
+        <div style="width: 20%; margin: auto; height: 100px; margin-top: 15px;">
+            <mat-spinner *ngIf="!isDataLoaded" class="custom-spinner" diameter="60" color="primary"></mat-spinner>
+        </div>
+        
+    </div>
+  </div>
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button class="btn btn-danger" [mat-dialog-close]="true">Retour</button>
+</mat-dialog-actions>

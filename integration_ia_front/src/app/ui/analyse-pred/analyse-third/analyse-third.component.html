@@ -1,0 +1,12 @@
+<div>
+    <h3>Résultats de l'analyse</h3>
+  
+    <div *ngFor="let resultat of resultatsSimulation">
+      <p><strong>{{ resultat.module }}:</strong> {{ resultat.message }}</p>
+    </div>
+  
+    <div *ngIf="moyenne">
+      <p><strong>Moyenne générale :</strong> {{ moyenne.toFixed(2) }}/20</p>
+    </div>
+  </div>
+  

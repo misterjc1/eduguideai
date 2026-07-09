@@ -1,0 +1,233 @@
+<div class="fd-root">
+  <mat-stepper #stepper linear class="fd-stepper">
+
+    <!-- ── ÉTAPE 1 : Sélection des notes ── -->
+    <mat-step label="Sélection des notes">
+      <div class="fd-content">
+
+        <div class="fd-header">
+          <div class="fd-icon red"><mat-icon>security</mat-icon></div>
+          <div>
+            <h2 class="fd-title">Détection de fraudes académiques</h2>
+            <p class="fd-sub">Choisissez une formation pour analyser les notes des étudiants inscrits</p>
+          </div>
+        </div>
+
+        <!-- Sélecteur de formation -->
+        <div class="fd-field-group">
+          <label class="fd-label">Formation à analyser</label>
+          <div class="fd-niveau-selector">
+            <mat-form-field appearance="outline" class="fd-select-field">
+              <mat-label>Sélectionner une formation</mat-label>
+              <mat-select [(ngModel)]="selectedNiveau" (ngModelChange)="onNiveauChange($event)"
+                          [disabled]="isLoadingNiveaux">
+                <mat-option *ngFor="let n of niveaux" [value]="n">
+                  {{ n.libelle }}<ng-container *ngIf="n.filiere"> — {{ n.filiere }}</ng-container>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div *ngIf="isLoadingNiveaux" class="fd-inline-loading">
+              <mat-spinner diameter="20"></mat-spinner>
+              <span>Chargement des formations...</span>
+            </div>
+          </div>
+          <div *ngIf="selectedNiveau" class="fd-niveau-badge">
+            <mat-icon>school</mat-icon>
+            <span>{{ selectedNiveau.libelle }}<ng-container *ngIf="selectedNiveau.filiere"> — {{ selectedNiveau.filiere }}</ng-container></span>
+          </div>
+        </div>
+
+        <!-- Règles de détection -->
+        <div class="fd-field-group" *ngIf="selectedNiveau">
+          <label class="fd-label">Règles de détection à appliquer</label>
+          <div class="fd-rules-grid" [formGroup]="secondFormGroup">
+            <div *ngFor="let rule of rules" class="fd-rule-card"
+                 [ngClass]="{'fd-rule-active': secondFormGroup.get(rule.key)?.value}">
+              <div class="fd-rule-top">
+                <mat-icon [style.color]="getRuleColor(rule.code)">{{ rule.icon }}</mat-icon>
+                <span class="fd-rule-label">{{ rule.label }}</span>
+                <mat-checkbox [formControlName]="rule.key" class="fd-rule-check"></mat-checkbox>
+              </div>
+              <p class="fd-rule-desc">{{ rule.desc }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notes table -->
+        <div class="fd-field-group" *ngIf="selectedNiveau">
+          <div class="fd-notes-header">
+            <label class="fd-label">Notes des étudiants</label>
+            <div class="fd-select-all" [formGroup]="firstFormGroup">
+              <mat-checkbox formControlName="selectAll" (change)="toggleAllNotes()"
+                            [disabled]="!notesDataSource?.data?.length">
+                Tout sélectionner
+              </mat-checkbox>
+              <span class="fd-count-badge" *ngIf="selectedCount > 0">{{ selectedCount }} sélectionnée(s)</span>
+            </div>
+          </div>
+
+          <div class="fd-loading" *ngIf="isLoadingNotes">
+            <mat-spinner diameter="24"></mat-spinner>
+            <span>Chargement des notes de la formation...</span>
+          </div>
+
+          <div class="fd-table-wrap" *ngIf="!isLoadingNotes && notesDataSource?.data?.length">
+            <table mat-table [dataSource]="notesDataSource" class="fd-table">
+
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox [formControl]="row.selected"></mat-checkbox>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="inscrit">
+                <th mat-header-cell *matHeaderCellDef>Étudiant</th>
+                <td mat-cell *matCellDef="let row">
+                  <span class="fd-student">
+                    <strong>{{ row.inscrit?.matricule || '-' }}</strong>
+                    <span class="fd-name">{{ row.inscrit?.nom }} {{ row.inscrit?.prenom }}</span>
+                  </span>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="module">
+                <th mat-header-cell *matHeaderCellDef>Module</th>
+                <td mat-cell *matCellDef="let row">{{ row.libelle || row.module || '-' }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="valeur">
+                <th mat-header-cell *matHeaderCellDef>Note</th>
+                <td mat-cell *matCellDef="let row">
+                  <span class="fd-note-val">{{ row.valeur }}/20</span>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="semestre">
+                <th mat-header-cell *matHeaderCellDef>Semestre</th>
+                <td mat-cell *matCellDef="let row">{{ row.semestre || '-' }}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                  [ngClass]="{'fd-row-selected': row.selected.value}"></tr>
+            </table>
+          </div>
+
+          <div class="fd-empty" *ngIf="!isLoadingNotes && notesDataSource && !notesDataSource.data?.length">
+            <mat-icon>info_outline</mat-icon>
+            <p>Aucune note trouvée pour cette formation.</p>
+          </div>
+        </div>
+
+        <div class="fd-actions" *ngIf="selectedNiveau">
+          <button class="fd-btn fd-btn-danger"
+                  [disabled]="selectedCount === 0"
+                  (click)="runDetection()">
+            <mat-icon>search</mat-icon>
+            Lancer la détection ({{ selectedCount }} notes)
+          </button>
+        </div>
+
+      </div>
+    </mat-step>
+
+    <!-- ── ÉTAPE 2 : Résultats ── -->
+    <mat-step label="Résultats de l'analyse">
+      <div class="fd-content">
+
+        <div class="fd-header">
+          <div class="fd-icon" [ngClass]="fraudResults.length > 0 ? 'red' : 'green'">
+            <mat-icon>{{ fraudResults.length > 0 ? 'warning' : 'check_circle' }}</mat-icon>
+          </div>
+          <div>
+            <h2 class="fd-title">
+              {{ fraudResults.length > 0 ? fraudResults.length + ' anomalie(s) détectée(s)' : 'Aucune anomalie détectée' }}
+            </h2>
+            <p class="fd-sub">{{ selectedCount }} notes analysées · {{ fraudResults.length }} suspicion(s) · {{ selectedNiveau?.libelle }}</p>
+          </div>
+        </div>
+
+        <!-- Résultats table -->
+        <div class="fd-table-wrap fd-results-table" *ngIf="fraudResults.length > 0">
+          <table mat-table [dataSource]="fraudResults" class="fd-table">
+
+            <ng-container matColumnDef="inscrit">
+              <th mat-header-cell *matHeaderCellDef>Étudiant</th>
+              <td mat-cell *matCellDef="let r">
+                <span class="fd-student">
+                  <strong>{{ r.inscrit?.matricule || '-' }}</strong>
+                  <span class="fd-name">{{ r.inscrit?.nom }} {{ r.inscrit?.prenom }}</span>
+                </span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="module">
+              <th mat-header-cell *matHeaderCellDef>Module</th>
+              <td mat-cell *matCellDef="let r">{{ r.libelle || r.module || '-' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="valeur">
+              <th mat-header-cell *matHeaderCellDef>Note</th>
+              <td mat-cell *matCellDef="let r">
+                <span class="fd-note-val">{{ r.valeur }}/20</span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="semestre">
+              <th mat-header-cell *matHeaderCellDef>Semestre</th>
+              <td mat-cell *matCellDef="let r">{{ r.semestre || '-' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="rule">
+              <th mat-header-cell *matHeaderCellDef>Règle brisée</th>
+              <td mat-cell *matCellDef="let r">
+                <span class="fd-rule-badge" [style.background]="getRuleColor(r.ruleCode) + '22'"
+                      [style.color]="getRuleColor(r.ruleCode)">
+                  {{ r.rule }}
+                </span>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsFraud; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsFraud;"></tr>
+          </table>
+        </div>
+
+        <div class="fd-clean" *ngIf="fraudResults.length === 0">
+          <mat-icon>verified</mat-icon>
+          <p>Aucune anomalie détectée avec les règles sélectionnées.</p>
+        </div>
+
+        <!-- Narratif IA -->
+        <div class="fd-ai-block" *ngIf="fraudResults.length > 0">
+          <div class="fd-ai-header">
+            <mat-icon>psychology</mat-icon>
+            <span>Analyse IA Gemini — Rapport de détection</span>
+          </div>
+          <div *ngIf="isLoadingAI" class="fd-ai-loading">
+            <mat-spinner diameter="22"></mat-spinner>
+            <span>Gemini AI analyse les anomalies détectées...</span>
+          </div>
+          <div *ngIf="!isLoadingAI && aiNarrative"
+               class="fd-ai-text" [innerHTML]="formatAI(aiNarrative)">
+          </div>
+          <div *ngIf="!isLoadingAI && !aiNarrative" class="fd-ai-text" style="color:#94A3B8">
+            L'analyse IA sera disponible une fois le serveur connecté.
+          </div>
+        </div>
+
+        <div class="fd-actions">
+          <button class="fd-btn fd-btn-secondary" (click)="restart()">
+            <mat-icon>refresh</mat-icon> Nouvelle analyse
+          </button>
+          <button class="fd-btn fd-btn-outline" matStepperPrevious>
+            <mat-icon>arrow_back</mat-icon> Retour
+          </button>
+        </div>
+
+      </div>
+    </mat-step>
+
+  </mat-stepper>
+</div>

@@ -1,0 +1,16 @@
+<div class="modal-container"> 
+  <div class="content">
+    <!-- Boucle pour afficher chaque cinématique récupérée avec son intitulé -->
+    <div *ngFor="let cinematique of cinematiquesNiveau2" class="item" (click)="selectCinematique(cinematique.intitule)">
+      <img alt="Icon for selection" src="assets/img/selection.png" />
+      <span class="item-text">{{ cinematique.intitule }}</span>
+    </div>
+  </div>
+
+  <div class="right-section">
+    <div class="right-section-text">
+      <h1>Sélectionnez ce qui vous inspire</h1>
+    </div>
+    <img alt="Illustration of a person pointing to the left" src="assets/img/gauche.png" />
+  </div>
+</div>

@@ -1,0 +1,48 @@
+import { Routes } from '@angular/router';
+
+import { DashboardComponent } from '../../dashboard/dashboard.component';
+import { UserModuleComponent } from 'app/user-module/user-module.component';
+import { UtilisateurComponent } from 'app/ui/utilisateur/utilisateur.component';
+import { PromptComponent } from 'app/ui/prompt/prompt.component';
+import { DonneesComponent } from 'app/ui/donnees/donnees.component';
+import { CinematiqueComponent } from 'app/ui/cinematique/cinematique.component';
+import { TemplatePromptComponent } from 'app/ui/template-prompt/template-prompt.component';
+import { ReponseComponent } from 'app/ui/reponse/reponse.component';
+import { ParamsComponent } from 'app/ui/params/params.component';
+import { OrientProSidebarComponent } from 'app/ui/orient-pro/orient-pro-sidebar/orient-pro-sidebar.component';
+import { TypeCinematiqueComponent } from 'app/ui/type-cinematique/type-cinematique.component';
+import { ServiceComponent } from 'app/ui/service/service.component';
+import { SimulationEffortComponent } from 'app/ui/simulation-effort/simulation-effort.component';
+import { AnalysePredComponent } from 'app/ui/analyse-pred/analyse-pred.component';
+import { AssistantVComponent } from 'app/ui/assistant-v/assistant-v.component';
+import { DetectionFraudComponent } from 'app/ui/detection-fraud/detection-fraud.component';
+import { DeuxiemeNiveauComponent } from 'app/ui/orient-pro/deuxieme-niveau/deuxieme-niveau.component';
+import { TroisiemeNiveauComponent } from 'app/ui/orient-pro/troisieme-niveau/troisieme-niveau.component';
+import { InscritComponent } from 'app/ui/inscrit/inscrit.component';
+import { LiaisonComponent } from 'app/ui/liaison/liaison.component';
+import { NiveauComponent } from 'app/ui/niveau/niveau.component';
+import { UtilisateurClassComponent } from 'app/ui/utilisateur-class/utilisateur-class.component';
+
+export const AdminLayoutRoutes: Routes = [
+    { path: 'dashboard', component: DashboardComponent },
+    { path: 'utilisateur', component: UtilisateurClassComponent },
+    { path: 'liaison', component: LiaisonComponent },
+    { path: 'inscrit', component: InscritComponent },
+    { path: 'niveauinscrit', component: NiveauComponent },
+    { path: 'templatePrompt', component: TemplatePromptComponent },
+    { path: 'service', component: ServiceComponent },
+    { path: 'cinematique', component: CinematiqueComponent },
+    { path: 'typeCinematique', component: TypeCinematiqueComponent },
+    { path: 'orientation', component: OrientProSidebarComponent },
+    { path: 'detection', component: DetectionFraudComponent },
+    { path: 'authorisation', component: UserModuleComponent },
+    { path: 'parametre', component: ParamsComponent },
+    { path: 'prompt', component: PromptComponent },
+    { path: 'donnees', component: DonneesComponent },
+    { path: 'reponse', component: ReponseComponent },
+    { path: 'simulation',  component: SimulationEffortComponent },
+    { path: 'analyse',     component: AnalysePredComponent },
+    { path: 'assistant',   component: AssistantVComponent },
+    { path: 'niveau', component: DeuxiemeNiveauComponent },
+    { path: 'choix', component: TroisiemeNiveauComponent },
+];

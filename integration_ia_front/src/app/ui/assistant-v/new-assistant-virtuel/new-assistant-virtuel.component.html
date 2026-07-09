@@ -1,0 +1,104 @@
+<div class="av-root">
+
+  <!-- ── Sidebar : questions prédéfinies ── -->
+  <aside class="av-sidebar">
+    <div class="av-sidebar-header">
+      <mat-icon>lightbulb_outline</mat-icon>
+      <span>Sujets fréquents</span>
+    </div>
+    <div class="av-questions-scroll">
+      <button *ngFor="let q of predefinedQuestions"
+              class="av-q-btn"
+              (click)="sendQuestion(q)"
+              [disabled]="isLoading">
+        <mat-icon class="av-q-icon">chevron_right</mat-icon>
+        <span>{{ q }}</span>
+      </button>
+    </div>
+    <div class="av-powered">
+      <mat-icon>auto_awesome</mat-icon>
+      <span>Gemini AI · EduGuideAI</span>
+    </div>
+  </aside>
+
+  <!-- ── Zone principale ── -->
+  <section class="av-main">
+
+    <!-- Header chat -->
+    <div class="av-header">
+      <div class="av-header-avatar">
+        <mat-icon>psychology</mat-icon>
+      </div>
+      <div class="av-header-info">
+        <span class="av-header-name">Assistant EduGuideAI</span>
+        <span class="av-header-status">
+          <span class="status-dot"></span>
+          Actif · Répond immédiatement
+        </span>
+      </div>
+      <span class="av-msg-count" *ngIf="messages.length > 1">
+        {{ messages.length }} messages
+      </span>
+      <button mat-icon-button (click)="clearChat()" title="Nouvelle conversation" class="av-clear-btn">
+        <mat-icon>delete_outline</mat-icon>
+      </button>
+    </div>
+
+    <!-- Messages -->
+    <div class="av-messages" #messagesContainer>
+
+      <div *ngFor="let msg of messages"
+           class="av-msg-row"
+           [ngClass]="msg.role === 'user' ? 'row-user' : 'row-ai'">
+
+        <!-- Avatar AI -->
+        <div *ngIf="msg.role === 'ai'" class="av-avatar ai-av">
+          <mat-icon>psychology</mat-icon>
+        </div>
+
+        <!-- Bulle -->
+        <div class="av-bubble" [ngClass]="msg.role === 'user' ? 'bubble-user' : 'bubble-ai'">
+
+          <!-- Typing indicator -->
+          <div *ngIf="msg.loading" class="av-typing">
+            <span></span><span></span><span></span>
+          </div>
+
+          <!-- Contenu -->
+          <div *ngIf="!msg.loading"
+               class="av-bubble-text"
+               [innerHTML]="formatContent(msg.content)">
+          </div>
+
+          <span class="av-time">{{ msg.time }}</span>
+        </div>
+
+        <!-- Avatar user -->
+        <div *ngIf="msg.role === 'user'" class="av-avatar user-av">
+          {{ userInitial }}
+        </div>
+
+      </div>
+
+      <div #chatBottom></div>
+    </div>
+
+    <!-- Barre de saisie -->
+    <div class="av-input-bar">
+      <textarea class="av-textarea"
+                [(ngModel)]="question"
+                (keydown)="onKeyDown($event)"
+                placeholder="Posez votre question académique... (Entrée pour envoyer)"
+                rows="1"
+                [disabled]="isLoading">
+      </textarea>
+      <button class="av-send-btn"
+              (click)="sendQuestion()"
+              [disabled]="isLoading || !question.trim()">
+        <mat-icon *ngIf="!isLoading">send</mat-icon>
+        <mat-spinner *ngIf="isLoading" diameter="18"></mat-spinner>
+      </button>
+    </div>
+
+  </section>
+</div>

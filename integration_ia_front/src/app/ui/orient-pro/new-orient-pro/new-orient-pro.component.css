@@ -1,0 +1,192 @@
+:host { display: block; }
+
+.op-root { background: #F8FAFC; min-height: 660px; font-family: 'Inter','Roboto',sans-serif; }
+
+.op-stepper { background: transparent !important; box-shadow: none !important; }
+
+.op-step-content {
+  padding: 24px 28px 20px;
+  max-height: 620px;
+  overflow-y: auto;
+}
+
+.op-step-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.op-step-icon {
+  width: 48px; height: 48px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.op-step-icon.blue { background: #EEF2FF; color: #1565C0; }
+.op-step-icon.orange { background: #FFF7ED; color: #FF6F00; }
+.op-step-icon mat-icon { font-size: 26px; width: 26px; height: 26px; }
+
+.op-step-title { font-size: 18px; font-weight: 700; color: #1E293B; margin: 0 0 3px; }
+.op-step-sub { font-size: 13px; color: #64748B; margin: 0; }
+
+/* Champs */
+.op-field-group { margin-bottom: 20px; }
+.op-label { display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 8px; }
+.op-hint { font-weight: 400; color: #94A3B8; }
+.op-field { width: 100%; }
+
+/* Chips sélection */
+.op-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.op-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: 1.5px solid #E2E8F0;
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  color: #374151;
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.op-chip mat-icon { font-size: 16px; width: 16px; height: 16px; }
+
+.op-chip:hover { border-color: #1565C0; color: #1565C0; background: #EEF2FF; }
+
+.op-chip-active {
+  border-color: #1565C0 !important;
+  background: #1565C0 !important;
+  color: #fff !important;
+}
+
+.op-chip-sm { padding: 6px 12px; font-size: 12.5px; }
+
+/* Radio cards objectif */
+.op-radio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+}
+
+.op-radio-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 12.5px;
+  color: #374151;
+  background: #fff;
+  transition: all 0.15s;
+}
+
+.op-radio-card mat-icon { font-size: 18px; width: 18px; height: 18px; color: #94A3B8; flex-shrink: 0; }
+.op-radio-card:hover { border-color: #1565C0; }
+
+.op-radio-active {
+  border-color: #1565C0 !important;
+  background: #EEF2FF !important;
+  color: #1565C0 !important;
+}
+
+.op-radio-active mat-icon { color: #1565C0 !important; }
+
+/* Erreur */
+.op-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #DC2626;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.op-error mat-icon { font-size: 18px; width: 18px; height: 18px; }
+
+/* Actions */
+.op-actions {
+  display: flex;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid #F1F5F9;
+  margin-top: 8px;
+}
+
+.op-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.op-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.op-btn-primary { background: #1565C0; color: #fff; }
+.op-btn-primary:hover:not(:disabled) { background: #1976D2; }
+
+.op-btn-secondary { background: #F1F5F9; color: #374151; }
+.op-btn-secondary:hover:not(:disabled) { background: #E2E8F0; }
+
+.op-btn-outline { border: 1.5px solid #1565C0; color: #1565C0; background: transparent; }
+.op-btn-outline:hover:not(:disabled) { background: #EEF2FF; }
+
+/* Résultats IA */
+.op-ai-result {
+  background: #fff;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.op-ai-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  background: linear-gradient(135deg, #1E2A4A, #1565C0);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.op-ai-badge mat-icon { font-size: 18px; width: 18px; height: 18px; color: #FF8F00; }
+
+.op-ai-content {
+  padding: 20px 22px;
+  font-size: 14px;
+  line-height: 1.75;
+  color: #374151;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.op-ai-content h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1565C0;
+  margin: 16px 0 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.op-ai-content strong { color: #1E293B; }

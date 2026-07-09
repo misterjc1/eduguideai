@@ -1,0 +1,60 @@
+﻿<div class="card">
+    <div class="card-header card-header-primary">
+        <h4 class="card-title" *ngIf=!update> Enregistrement d'un template de Prompt</h4>
+        <h4 class="card-title" *ngIf=update>Modification d'un template de Prompt</h4>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <div class="alert alert-rose alert-dismissible fade show" role="alert" *ngIf="error">
+                    <strong>{{errorMessage}}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeError()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <mat-dialog-content class="mat-typography">
+                    <div class="form-row">
+                        <div class="form-row col-md-12">
+
+                            <!-- Checkbox pour les variables -->
+                            <div class="form-group col-md-8">
+                                <label>Variables disponibles</label>
+                                <div class="form-group d-flex flex-row"> <!-- Utilisation de d-flex et flex-row -->
+                                    <div *ngFor="let variable of enumVar" class="mr-3"> <!-- Ajout de margin-right pour espacement -->
+                                        <mat-checkbox (change)="onCheckboxChange(variable, $event.checked)">
+                                            {{ variable.value }}
+                                        </mat-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Champ texte "Description" -->
+                            <div class="form-group col-md-12"> <!-- col-md-12 pour occuper toute la largeur -->
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Description  <span style="color: red;">*</span></mat-label>
+                                    <textarea matInput [(ngModel)]="templatePrompt.description" name="libelle"
+                                              rows="5"
+                                              cdkTextareaAutosize
+                                              cdkAutosizeMinRows="5"
+                                              cdkAutosizeMaxRows="10"
+                                              maxlength="10000">
+                                    </textarea>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+                    </div>
+                </mat-dialog-content>
+            </div>
+        </div>
+    </div>
+</div>
+
+<mat-dialog-actions align="end">
+    <button class="btn btn-danger" [mat-dialog-close]="true">Retour</button>
+    <button class="btn btn-primary" (click)="onSubmit()" cdkFocusInitial>Enregistrer</button>
+</mat-dialog-actions>

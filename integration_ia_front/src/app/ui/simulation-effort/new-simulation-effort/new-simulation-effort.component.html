@@ -1,0 +1,176 @@
+<div class="se-root">
+  <mat-stepper #stepper linear class="se-stepper">
+
+    <!-- ── ÉTAPE 1 : Objectifs & paramètres ── -->
+    <mat-step label="Objectifs & Paramètres">
+      <div class="se-content" [formGroup]="form">
+
+        <div class="se-header">
+          <div class="se-icon blue"><mat-icon>fitness_center</mat-icon></div>
+          <div>
+            <h2 class="se-title">Plan de simulation d'efforts</h2>
+            <p class="se-sub">Définissez vos objectifs et Gemini AI construira un plan d'étude personnalisé</p>
+          </div>
+        </div>
+
+        <!-- Sélecteur étudiant (admin seulement) -->
+        <div *ngIf="isAdmin" style="margin-bottom:16px;">
+          <label class="se-label">Étudiant à simuler</label>
+          <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+            <mat-form-field appearance="outline" style="min-width:300px; max-width:450px;">
+              <mat-label>Sélectionner un étudiant</mat-label>
+              <mat-select [(ngModel)]="selectedInscrit" (ngModelChange)="onInscritChange($event)"
+                          [ngModelOptions]="{standalone: true}"
+                          [disabled]="isLoadingInscrits">
+                <mat-option *ngFor="let i of inscrits" [value]="i">
+                  {{ i.nom }} {{ i.prenom }} — {{ i.matricule }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div *ngIf="isLoadingInscrits" style="display:flex; align-items:center; gap:8px; color:#64748B; font-size:13px;">
+              <mat-spinner diameter="20"></mat-spinner>
+              <span>Chargement...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notes chargées -->
+        <div class="se-notes-summary" *ngIf="!isLoadingNotes && notes.length > 0">
+          <div class="se-notes-left">
+            <mat-icon>assignment</mat-icon>
+            <span><strong>{{ notes.length }}</strong> notes chargées</span>
+          </div>
+          <div class="se-avg-pill">Moy: <strong>{{ moyenneNotes | number:'1.1-1' }}/20</strong></div>
+        </div>
+
+        <div class="se-loading" *ngIf="isLoadingNotes">
+          <mat-spinner diameter="22"></mat-spinner>
+          <span>Chargement des notes...</span>
+        </div>
+
+        <div class="se-empty" *ngIf="!isLoadingNotes && notes.length === 0 && (!isAdmin || selectedInscrit)">
+          <mat-icon>info_outline</mat-icon>
+          <p>{{ isAdmin ? 'Aucune note trouvée pour cet étudiant.' : 'Aucune note trouvée. L\'IA utilisera votre profil.' }}</p>
+        </div>
+        <div *ngIf="isAdmin && !selectedInscrit && !isLoadingInscrits" class="se-empty">
+          <mat-icon>person_search</mat-icon>
+          <p>Sélectionnez un étudiant pour charger ses notes.</p>
+        </div>
+
+        <!-- Objectifs -->
+        <div class="se-field-group">
+          <label class="se-label">Mes objectifs académiques * <span class="se-hint">(cochez un ou plusieurs)</span></label>
+          <div class="se-chips">
+            <div *ngFor="let o of objectifs"
+                 class="se-chip"
+                 [ngClass]="{'se-chip-active': isObjectifSelected(o.value)}"
+                 (click)="toggleObjectif(o.value)">
+              <mat-icon class="se-chip-check">{{ isObjectifSelected(o.value) ? 'check_box' : 'check_box_outline_blank' }}</mat-icon>
+              <mat-icon class="se-chip-icon">{{ o.icon }}</mat-icon>
+              <span>{{ o.label }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Intensité -->
+        <div class="se-field-group">
+          <label class="se-label">Intensité de travail quotidien *</label>
+          <div class="se-intensity-grid">
+            <div *ngFor="let i of intensites"
+                 class="se-intensity-card"
+                 [ngClass]="{'se-intensity-active': form.get('intensite')?.value === i.value}"
+                 [style.--accent]="i.color"
+                 (click)="form.get('intensite')?.setValue(i.value)">
+              <div class="se-intensity-dot" [style.background]="i.color"></div>
+              <span>{{ i.label }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Durée -->
+        <div class="se-field-group">
+          <label class="se-label">Durée du plan *</label>
+          <div class="se-duree-grid">
+            <div *ngFor="let d of durees"
+                 class="se-duree-card"
+                 [ngClass]="{'se-duree-active': form.get('duree')?.value === d}"
+                 (click)="form.get('duree')?.setValue(d)">
+              <mat-icon>calendar_today</mat-icon>
+              <span>{{ d }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="se-error" *ngIf="error">
+          <mat-icon>error_outline</mat-icon> {{ error }}
+        </div>
+
+        <div class="se-actions">
+          <button class="se-btn se-btn-primary"
+                  [disabled]="form.invalid || isLoadingAI"
+                  (click)="generateSimulation()">
+            <mat-spinner *ngIf="isLoadingAI" diameter="18"></mat-spinner>
+            <mat-icon *ngIf="!isLoadingAI">auto_awesome</mat-icon>
+            {{ isLoadingAI ? 'Gemini AI génère votre plan...' : 'Générer mon plan d\'effort IA' }}
+          </button>
+        </div>
+
+      </div>
+    </mat-step>
+
+    <!-- ── ÉTAPE 2 : Plan IA ── -->
+    <mat-step label="Plan personnalisé IA">
+      <div class="se-content">
+
+        <div class="se-header">
+          <div class="se-icon orange"><mat-icon>auto_awesome</mat-icon></div>
+          <div>
+            <h2 class="se-title">Votre plan d'efforts personnalisé</h2>
+            <p class="se-sub">Généré par Gemini AI · EduGuideAI — basé sur vos notes et objectifs</p>
+          </div>
+        </div>
+
+        <!-- Résumé paramètres -->
+        <div class="se-params-row">
+          <div class="se-param-pill">
+            <mat-icon>fitness_center</mat-icon>
+            <span>{{ form.get('intensite')?.value }}</span>
+          </div>
+          <div class="se-param-pill">
+            <mat-icon>calendar_today</mat-icon>
+            <span>{{ form.get('duree')?.value }}</span>
+          </div>
+          <div class="se-param-pill">
+            <mat-icon>assignment</mat-icon>
+            <span>{{ (form.get('objectifs')?.value || []).length }} objectif(s)</span>
+          </div>
+        </div>
+
+        <!-- Résultat IA -->
+        <div class="se-ai-block" *ngIf="aiResult">
+          <div class="se-ai-header">
+            <mat-icon>psychology</mat-icon>
+            <span>Analyse IA · {{ userName }}</span>
+          </div>
+          <div class="se-ai-content" [innerHTML]="formatResult(aiResult)"></div>
+        </div>
+
+        <div class="se-empty" *ngIf="!aiResult">
+          <mat-icon>hourglass_empty</mat-icon>
+          <p>Aucun résultat disponible. Vérifiez la connexion au serveur IA.</p>
+        </div>
+
+        <div class="se-actions">
+          <button class="se-btn se-btn-secondary" (click)="restart()">
+            <mat-icon>refresh</mat-icon> Nouveau plan
+          </button>
+          <button class="se-btn se-btn-outline" matStepperPrevious>
+            <mat-icon>edit</mat-icon> Modifier
+          </button>
+        </div>
+
+      </div>
+    </mat-step>
+
+  </mat-stepper>
+</div>

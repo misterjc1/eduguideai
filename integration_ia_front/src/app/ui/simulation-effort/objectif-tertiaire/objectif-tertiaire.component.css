@@ -1,0 +1,55 @@
+@import '~chartist/dist/chartist.css';
+
+.simulation-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .result-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: box-shadow 0.3s;
+  }
+  
+  .result-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .result-title {
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .result-detail {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .highlight {
+    font-weight: bold;
+    color: #007bff; /* Couleur principale pour le surlignage */
+  }
+  
+  .chart-container {
+    margin-top: 10px;
+  }
+  
+  .summary-container {
+    background-color: #eef;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
+  
+  .summary-text {
+    font-size: 1rem;
+    color: #333;
+  }
+  

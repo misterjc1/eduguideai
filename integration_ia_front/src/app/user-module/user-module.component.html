@@ -1,0 +1,71 @@
+<div class="auth-module">
+
+    <div class="auth-header">
+        <div class="auth-header-content">
+            <div class="auth-header-icon">
+                <span class="material-icons">admin_panel_settings</span>
+            </div>
+            <div>
+                <h2 class="auth-title">Gestion des autorisations</h2>
+                <p class="auth-subtitle">Utilisateurs, profils, rôles et historique d'accès</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="auth-tabs-container">
+        <mat-tab-group mat-align-tabs="start" animationDuration="200ms" class="auth-tab-group">
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <span class="material-icons tab-icon">people</span>
+                    Utilisateurs
+                </ng-template>
+                <div class="tab-content">
+                    <app-utilisateur></app-utilisateur>
+                </div>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <span class="material-icons tab-icon">badge</span>
+                    Profils
+                </ng-template>
+                <div class="tab-content">
+                    <app-profil></app-profil>
+                </div>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <span class="material-icons tab-icon">lock</span>
+                    Rôles
+                </ng-template>
+                <div class="tab-content">
+                    <app-page></app-page>
+                </div>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <span class="material-icons tab-icon">history</span>
+                    Connexions
+                </ng-template>
+                <div class="tab-content">
+                    <app-session></app-session>
+                </div>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <span class="material-icons tab-icon">fact_check</span>
+                    Audit
+                </ng-template>
+                <div class="tab-content">
+                    <app-audit></app-audit>
+                </div>
+            </mat-tab>
+
+        </mat-tab-group>
+    </div>
+
+</div>

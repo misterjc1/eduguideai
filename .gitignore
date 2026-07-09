@@ -1,0 +1,67 @@
+# ============================================================
+# VENEEM - .gitignore combine (backend Spring Boot + frontend Angular)
+# ============================================================
+
+# --- Backend (Maven / Java) ---
+integration_ia_systeme_gestsco/target/
+integration_ia_systeme_gestsco/bin/
+integration_ia_systeme_gestsco/build/
+*.class
+*.jar
+*.war
+*.ear
+
+# --- Frontend (Angular / Node) ---
+integration_ia_front/node_modules/
+integration_ia_front/dist/
+integration_ia_front/tmp/
+integration_ia_front/out-tsc/
+integration_ia_front/.angular/
+integration_ia_front/coverage/
+integration_ia_front/e2e/*.js
+integration_ia_front/e2e/*.map
+npm-debug.log
+testem.log
+
+# --- Secrets (cles de service, credentials) ---
+**/djonan-firebase-account.json
+*firebase-account*.json
+*serviceAccount*.json
+
+# --- Metadata SVN residuelle ---
+.svn/
+
+# --- IDE / editeurs ---
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+.metadata/
+.c9/
+*.launch
+*.sublime-workspace
+*.sublime-project
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# --- Logs / temporaires ---
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*.swn
+/connect.lock
+libpeerconnection.log
+
+# --- Systeme ---
+.DS_Store
+Thumbs.db
+
+# --- Outils Claude Code (local, pas partage) ---
+.claude/
+.github/modernize/

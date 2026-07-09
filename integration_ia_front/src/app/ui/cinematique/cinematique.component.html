@@ -1,0 +1,10 @@
+<div class="main-content" style="background-color: rgb(255, 255, 255);">
+    <div class="container-fluid">
+  
+        <app-mt-data-table *ngIf="isDataLoaded" [datatable]="datatable"> </app-mt-data-table>
+        <div style="width: 20%; margin: auto; height: 100px; margin-top: 15px;">
+            <mat-spinner *ngIf="!isDataLoaded" class="custom-spinner" diameter="60" color="primary"></mat-spinner>
+        </div>
+        
+    </div>
+  </div>

@@ -1,0 +1,47 @@
+﻿<div class="card">
+    <div class="card-header card-header-primary">
+      <h4>Import des inscrits</h4>
+    </div>
+  </div>
+  <mat-dialog-content class="mat-typography">
+    <div class="alert alert-rose alert-dismissible fade show" role="alert" *ngIf="error">
+      <strong>{{errorMessage}}</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeError()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!-- Sélection du niveau -->
+    <div class="form-row">
+      <div class="input-group col-md-12">
+        <mat-form-field appearance="fill" class="example-full-width">
+          <mat-label>SELECTIONNER UN NIVEAU</mat-label>
+          <mat-select [(ngModel)]="selectedNiveau" name="selectedNiveau" required>
+            <mat-option *ngFor="let niveau of niveaux" [value]="niveau">
+              {{niveau.filiere}} {{niveau.libelle}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="input-group col-md-12">
+        <mat-form-field>
+          <div>
+            <mat-toolbar>
+              <input matInput [(ngModel)]="fileAttr" readonly name="name" />
+              <button mat-flat-button color="primary">Parcourir</button>
+            </mat-toolbar>
+            <input type="file" #fileInput id="uploadFile" (change)="Upload($event)" name="uploadFile"
+              multiple="false" accept=".xlsx, .xls, .csv" />
+          </div>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <app-mt-data-table *ngIf="isDataLoaded" [datatable]="datatable"> </app-mt-data-table>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-danger" [mat-dialog-close]="true">Annuler</button>
+    <button class="btn btn-primary" (click)="onSubmit()" cdkFocusInitial>Importer</button>
+  </mat-dialog-actions>

@@ -1,0 +1,37 @@
+<!-- ── Logo EduGuideAI ── -->
+<div class="logo">
+    <a href="/dashboard" class="ega-sidebar-logo-link">
+        <div class="ega-sidebar-logo-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 3L2 8l10 5 10-5-10-5z" fill="white" opacity="0.95"/>
+                <path d="M2 13l10 5 10-5" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.7"/>
+                <path d="M2 17l10 5 10-5" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.4"/>
+            </svg>
+        </div>
+        <div>
+            <div class="ega-sidebar-logo-name">EduGuide<span class="ega-sidebar-logo-ai">AI</span></div>
+            <div class="ega-sidebar-logo-sub">S'orienter · Réussir</div>
+        </div>
+    </a>
+</div>
+
+<!-- ── Navigation ── -->
+<div class="sidebar-wrapper">
+    <ul class="nav">
+        <li *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
+            <a routerLinkActive="active" [routerLink]="[menuItem.path]" class="nav-link">
+                <i class="material-icons">{{menuItem.icon}}</i>
+                <p>{{menuItem.title}}</p>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<!-- ── Section utilisateur (bas) ── -->
+<div class="ega-sidebar-user">
+    <div class="ega-sidebar-avatar">{{ getInitials() }}</div>
+    <div class="ega-sidebar-userinfo">
+        <span class="ega-sidebar-name">{{ userConnected?.prenom || userConnected?.username }}</span>
+        <span class="ega-sidebar-role">{{ getRoleLabel(userConnected?.type) }}</span>
+    </div>
+</div>

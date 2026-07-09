@@ -1,0 +1,132 @@
+<div class="ega-auth-page">
+
+  <!-- ── Panel gauche : Branding ── -->
+  <div class="ega-auth-brand">
+    <div class="ega-auth-brand-content">
+
+      <!-- Logo -->
+      <div class="ega-auth-logo">
+        <div class="ega-auth-logo-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+            <path d="M12 3L2 8l10 5 10-5-10-5z" fill="white" opacity="0.95"/>
+            <path d="M2 13l10 5 10-5" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.75"/>
+            <path d="M2 17l10 5 10-5" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.45"/>
+          </svg>
+        </div>
+        <span class="ega-auth-logo-text">EduGuide<span class="ai-accent">AI</span></span>
+      </div>
+
+      <!-- Headline -->
+      <h1 class="ega-auth-headline">
+        L'IA au service<br>de votre réussite
+      </h1>
+      <p class="ega-auth-tagline">
+        Orientation personnalisée, analyses prédictives et assistance intelligente pour un parcours académique réussi.
+      </p>
+
+      <!-- Features -->
+      <div class="ega-auth-features">
+        <div class="ega-auth-feat">
+          <div class="ega-auth-feat-icon">
+            <mat-icon>explore</mat-icon>
+          </div>
+          <span>Orientation professionnelle par l'IA</span>
+        </div>
+        <div class="ega-auth-feat">
+          <div class="ega-auth-feat-icon">
+            <mat-icon>insights</mat-icon>
+          </div>
+          <span>Prédiction de vos résultats académiques</span>
+        </div>
+        <div class="ega-auth-feat">
+          <div class="ega-auth-feat-icon">
+            <mat-icon>trending_up</mat-icon>
+          </div>
+          <span>Simulation des efforts à fournir</span>
+        </div>
+        <div class="ega-auth-feat">
+          <div class="ega-auth-feat-icon">
+            <mat-icon>smart_toy</mat-icon>
+          </div>
+          <span>Assistant IA disponible 24h/24</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Panel droit : Formulaire ── -->
+  <div class="ega-auth-form-panel">
+    <div class="ega-auth-form-wrap">
+
+      <!-- En-tête formulaire -->
+      <h2 class="ega-auth-form-title">Connexion</h2>
+      <p class="ega-auth-form-sub">Accédez à votre espace EduGuideAI</p>
+
+      <!-- Erreur -->
+      <div class="ega-auth-error" *ngIf="error">
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ errorMessage }}</span>
+        <button class="ega-auth-error-close" (click)="closeError()">×</button>
+      </div>
+
+      <!-- Champ utilisateur -->
+      <mat-form-field appearance="outline" class="ega-auth-field">
+        <mat-label>Nom d'utilisateur</mat-label>
+        <mat-icon matPrefix class="ega-field-icon">account_circle</mat-icon>
+        <input matInput type="text"
+               placeholder="ex: alice.kabore"
+               [(ngModel)]="credential.username"
+               name="username">
+      </mat-form-field>
+
+      <!-- Champ mot de passe -->
+      <mat-form-field appearance="outline" class="ega-auth-field">
+        <mat-label>Mot de passe</mat-label>
+        <mat-icon matPrefix class="ega-field-icon">lock</mat-icon>
+        <input matInput
+               [type]="hide ? 'password' : 'text'"
+               placeholder="••••••••"
+               [(ngModel)]="credential.password"
+               name="pwd">
+        <button mat-icon-button matSuffix (click)="hide = !hide" type="button">
+          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <!-- Bouton connexion -->
+      <button class="ega-auth-btn" type="button" (click)="onSubmit()" [disabled]="isLoading">
+        <mat-spinner *ngIf="isLoading" diameter="18" style="display:inline-flex;"></mat-spinner>
+        <span>{{ isLoading ? 'Connexion en cours...' : 'Se connecter' }}</span>
+        <mat-icon *ngIf="!isLoading">arrow_forward</mat-icon>
+      </button>
+
+      <!-- Séparateur comptes démo -->
+      <div class="ega-demo-divider">
+        <span>Comptes de démonstration</span>
+      </div>
+
+      <!-- Liste des comptes démo -->
+      <div class="ega-demo-list">
+        <div *ngFor="let a of demoAccounts"
+             class="ega-demo-item"
+             (click)="fillAndSubmit(a)">
+
+          <div class="ega-demo-icon"
+               [ngStyle]="{'background': a.color + '18', 'color': a.color}">
+            <mat-icon>{{ a.icon }}</mat-icon>
+          </div>
+
+          <div class="ega-demo-text">
+            <strong>{{ a.role }}</strong>
+            <span>{{ a.username }} · {{ a.password }}</span>
+          </div>
+
+          <mat-icon class="ega-demo-chevron">chevron_right</mat-icon>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

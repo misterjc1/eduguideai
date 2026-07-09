@@ -1,0 +1,128 @@
+.nu-dialog {
+  padding: 0;
+  font-family: 'Inter', 'Roboto', sans-serif;
+  min-width: 560px;
+}
+
+.nu-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #E2E8F0;
+  background: linear-gradient(135deg, #1E2A4A 0%, #1565C0 100%);
+  color: #fff;
+  border-radius: 4px 4px 0 0;
+}
+
+.nu-header-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.nu-header-icon mat-icon { font-size: 24px; color: #fff; }
+.nu-title { font-size: 16px; font-weight: 700; margin: 0 0 3px; }
+.nu-sub   { font-size: 12px; color: rgba(255,255,255,0.7); margin: 0; }
+
+.nu-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 24px 0;
+  padding: 10px 14px;
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  border-radius: 8px;
+  color: #DC2626;
+  font-size: 13px;
+}
+
+.nu-error mat-icon { font-size: 18px; flex-shrink: 0; }
+.nu-error-close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #DC2626;
+  padding: 0 4px;
+}
+
+.nu-loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 24px;
+  color: #64748B;
+  font-size: 13px;
+}
+
+.nu-form {
+  padding: 20px 24px 0;
+}
+
+.nu-section-title {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #94A3B8;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin: 16px 0 10px;
+}
+
+.nu-section-title:first-child { margin-top: 0; }
+
+.nu-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.nu-field {
+  flex: 1;
+  min-width: 220px;
+}
+
+.nu-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px 20px;
+  border-top: 1px solid #F1F5F9;
+  margin-top: 16px;
+}
+
+.nu-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 20px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+.nu-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.nu-btn-cancel {
+  background: #F1F5F9;
+  color: #374151;
+}
+.nu-btn-cancel:hover:not(:disabled) { background: #E2E8F0; }
+
+.nu-btn-save {
+  background: #1565C0;
+  color: #fff;
+}
+.nu-btn-save:hover:not(:disabled) { background: #1251A3; }
+.nu-btn-save mat-icon { font-size: 18px; width: 18px; height: 18px; }

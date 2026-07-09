@@ -1,0 +1,162 @@
+<!--<div class="main-content" style="background-color: rgb(225, 235, 238);">
+  <div class="container-fluid">
+
+    <div class="guidance-container">
+      <div class="navigation">
+        <button (click)="prevStep()"><</button>
+        <span>{{ currentStepText }}</span>
+        <button (click)="nextStep()">></button>
+      </div>
+    
+      <div class="choices">
+        <div *ngFor="let choice of currentChoices" class="checkbox-item">
+          <label>
+            <input type="checkbox" [(ngModel)]="choice.selected" />
+            {{ choice.label }}
+          </label>
+        </div>
+      </div>
+    
+      <button (click)="submitSelections()">Soumettre les choix</button>
+    </div>
+    
+      
+  </div>
+</div>-->
+
+
+
+
+
+<!--Bon template html-->
+
+<!--<div class="main-content" style="background-color: rgb(225, 235, 238);">
+  <div class="container-fluid">
+    <div class="guidance-container">
+      <div class="navigation">
+        <button (click)="prevStep()"><</button>
+        <span>{{ currentStepText }}</span>
+        <button (click)="nextStep()">></button>
+      </div>
+    
+      <div class="choices">
+        <div *ngFor="let choice of currentChoices" class="checkbox-item">
+          <label>
+            <input type="checkbox" [(ngModel)]="choice.selected" />
+            {{ choice.label }}
+          </label>
+        </div>
+      </div>
+    
+      <button (click)="submitSelections()" [disabled]="loading">
+        {{ loading ? 'Chargement...' : 'Soumettre les choix' }}
+      </button>-->
+
+
+      <!-- Section pour afficher les recommandations de carrière -->
+     <!-- <div *ngIf="careerOptions.length > 0">
+        <h3>Recommandations de carrière</h3>
+        <ul>
+          <li *ngFor="let career of careerOptions">
+            <h4>{{ career.name }}</h4>
+            <p><strong>Niveau d'éducation requis :</strong> {{ career.level }}</p>
+            <p>{{ career.description }}</p>
+          </li>
+        </ul>
+      </div>
+      
+      <div *ngIf="message">
+        <p>{{ message }}</p>
+      </div>
+      
+      <div *ngIf="loading">
+        <p>Chargement en cours...</p>
+      </div>
+      
+    </div>
+  </div>
+</div> -->
+
+
+<!--Fin du bon template-->
+
+  
+
+
+
+
+
+
+  <!-- En-tête -->
+  <div class="header">
+    <img alt="Logo" height="60" src="assets/img/ai.jpg" width="70"/>
+    <div class="nav-links">
+      <a href="#">S'orienter en discutant</a>
+      <a class="button" href="#">Choisir directement</a>
+      <a href="#">Vos centres d'intérêt</a>
+    </div>
+    <div class="profile">
+      <i class="fas fa-user-circle"></i>
+    </div>
+  </div>
+  
+
+  <!-- Contenu Principal -->
+  <div class="main-content">
+    <div class="container-fluid">
+      <div class="guidance-container">
+        <div class="content-wrapper flex">
+  
+          <div class="left-panel" style="background-color: rgb(225, 235, 238);">
+            <div class="carousel">
+              <img alt="Illustration" height="200" src="assets/img/picture.jpg" width="200"/>
+              <p>Rester assis | Bouger</p>
+              <div class="dots">
+                <span class="active"></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+  
+            <!-- Choix disponibles : Ajout de l'événement (change) pour chaque case -->
+            <div class="choices">
+              <div *ngFor="let choice of currentChoices" class="checkbox-item">
+                <label>
+                  <input type="checkbox" [(ngModel)]="choice.selected" (change)="onChoiceChange()"/>
+                  {{ choice.label }}
+                </label>
+              </div>
+            </div>
+  
+            <button (click)="submitSelections()" [disabled]="loading">
+              {{ loading ? 'Chargement...' : 'Soumettre les choix' }}
+            </button>
+
+            <div *ngIf="message">
+              <p>{{ message }}</p>
+            </div>
+  
+            <div *ngIf="loading">
+              <p>Chargement en cours...</p>
+            </div>
+          </div>
+  
+          <div class="right-panel">
+            <h3>Pistes métiers</h3>
+            <select class="dropdown">
+              <option value="all">Tous les niveaux d'accès</option>
+            </select>
+            <div class="job-card" *ngFor="let career of careerOptions">
+              <h4>{{ career.name }}<i class="fas fa-star star"></i></h4>
+              <p>{{ career.description }}</p>
+              <p><strong>Niveau d'éducation requis :</strong> {{ career.level }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+

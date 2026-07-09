@@ -1,0 +1,95 @@
+<div class="ega-dashboard">
+
+  <!-- ── Hero Banner ── -->
+  <section class="welcome-section">
+    <div class="welcome-left">
+      <div class="role-badge">
+        <mat-icon class="badge-icon">{{ getRoleIcon(userType) }}</mat-icon>
+        {{ userRole }}
+      </div>
+      <h1 class="welcome-title">
+        Bonjour, <span class="name-accent">{{ userName }}</span> !
+      </h1>
+      <p class="welcome-subtitle">
+        Bienvenue sur <strong>EduGuideAI</strong> — votre assistant intelligent
+        pour apprendre, s'orienter et réussir votre parcours académique.
+      </p>
+    </div>
+    <div class="welcome-right">
+      <mat-icon class="hero-icon">psychology</mat-icon>
+    </div>
+  </section>
+
+  <!-- ── Chargement stats ── -->
+  <mat-progress-bar *ngIf="isLoading"
+                    mode="indeterminate"
+                    color="primary"
+                    class="stats-loader">
+  </mat-progress-bar>
+
+  <!-- ── Cartes de statistiques ── -->
+  <section class="stats-section" *ngIf="!isLoading">
+    <div class="stat-card" *ngFor="let s of statCards">
+      <div class="stat-icon-wrap"
+           [ngStyle]="{'background': s.color + '18', 'color': s.color}">
+        <mat-icon>{{ s.icon }}</mat-icon>
+      </div>
+      <div class="stat-body">
+        <span class="stat-value">{{ s.value }}</span>
+        <span class="stat-label">{{ s.label }}</span>
+        <span class="stat-sub">{{ s.sub }}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Services IA ── -->
+  <section class="services-section">
+    <div class="section-header">
+      <h2 class="section-title">
+        <mat-icon color="primary">smart_toy</mat-icon>
+        Services IA disponibles
+      </h2>
+      <p class="section-sub">
+        Choisissez un service pour vous accompagner dans votre parcours académique
+      </p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card"
+           *ngFor="let s of services"
+           (click)="navigateToService(s.typeService || '')">
+
+        <div class="sc-header">
+          <div class="sc-icon"
+               [ngStyle]="{'background': getServiceColor(s.typeService) + '18',
+                           'color':      getServiceColor(s.typeService)}">
+            <mat-icon>{{ s.icon }}</mat-icon>
+          </div>
+          <span class="sc-badge"
+                [ngStyle]="{'background': getServiceColor(s.typeService) + '18',
+                            'color':      getServiceColor(s.typeService)}">IA</span>
+        </div>
+
+        <div class="sc-body">
+          <h3 class="sc-name">{{ getServiceLabel(s.typeService) }}</h3>
+          <p class="sc-desc">{{ s.message }}</p>
+        </div>
+
+        <div class="sc-footer">
+          <button mat-flat-button class="sc-btn"
+                  [ngStyle]="{'background-color': getServiceColor(s.typeService),
+                              'color': '#fff'}">
+            <mat-icon>arrow_forward</mat-icon>
+            Accéder
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="services.length === 0 && !isLoading" class="empty-state">
+      <mat-icon>info_outline</mat-icon>
+      <p>Aucun service disponible pour le moment.</p>
+    </div>
+  </section>
+
+</div>

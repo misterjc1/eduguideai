@@ -1,0 +1,136 @@
+<div class="op-root">
+
+  <mat-stepper #stepper linear class="op-stepper">
+
+    <!-- ── ÉTAPE 1 : Profil ── -->
+    <mat-step [stepControl]="profileForm" label="Votre profil">
+      <div class="op-step-content" [formGroup]="profileForm">
+
+        <div class="op-step-header">
+          <div class="op-step-icon blue">
+            <mat-icon>person</mat-icon>
+          </div>
+          <div>
+            <h2 class="op-step-title">Mon profil académique</h2>
+            <p class="op-step-sub">Décrivez votre parcours et vos aspirations pour une orientation personnalisée</p>
+          </div>
+        </div>
+
+        <!-- Filière -->
+        <div class="op-field-group">
+          <label class="op-label">Ma filière / domaine actuel *</label>
+          <mat-form-field appearance="outline" class="op-field">
+            <mat-icon matPrefix>school</mat-icon>
+            <input matInput formControlName="filiere" placeholder="ex: Informatique, Économie, Droit...">
+          </mat-form-field>
+        </div>
+
+        <!-- Intérêts -->
+        <div class="op-field-group">
+          <label class="op-label">Domaines qui m'intéressent * <span class="op-hint">(choisissez au moins 1)</span></label>
+          <div class="op-chips">
+            <div *ngFor="let i of interets"
+                 class="op-chip"
+                 [ngClass]="{'op-chip-active': isSelected('interets', i.value)}"
+                 (click)="toggleChip('interets', i.value)">
+              <mat-icon>{{ i.icon }}</mat-icon>
+              <span>{{ i.label }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Compétences -->
+        <div class="op-field-group">
+          <label class="op-label">Mes compétences principales * <span class="op-hint">(choisissez au moins 1)</span></label>
+          <div class="op-chips">
+            <div *ngFor="let c of competences"
+                 class="op-chip op-chip-sm"
+                 [ngClass]="{'op-chip-active': isSelected('competences', c)}"
+                 (click)="toggleChip('competences', c)">
+              {{ c }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Objectif -->
+        <div class="op-field-group">
+          <label class="op-label">Mon objectif professionnel *</label>
+          <div class="op-radio-grid">
+            <div *ngFor="let o of objectifs"
+                 class="op-radio-card"
+                 [ngClass]="{'op-radio-active': profileForm.get('objectif')?.value === o}"
+                 (click)="profileForm.get('objectif')?.setValue(o)">
+              <mat-icon>{{ profileForm.get('objectif')?.value === o ? 'radio_button_checked' : 'radio_button_unchecked' }}</mat-icon>
+              <span>{{ o }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Valeurs -->
+        <div class="op-field-group">
+          <label class="op-label">Ce qui compte pour moi * <span class="op-hint">(choisissez au moins 1)</span></label>
+          <div class="op-chips">
+            <div *ngFor="let v of valeurs"
+                 class="op-chip op-chip-sm"
+                 [ngClass]="{'op-chip-active': isSelected('valeurs', v)}"
+                 (click)="toggleChip('valeurs', v)">
+              {{ v }}
+            </div>
+          </div>
+        </div>
+
+        <div class="op-error" *ngIf="error">
+          <mat-icon>error_outline</mat-icon> {{ error }}
+        </div>
+
+        <div class="op-actions">
+          <button class="op-btn op-btn-primary"
+                  [disabled]="profileForm.invalid || isLoading"
+                  (click)="generateRecommendations()">
+            <mat-spinner *ngIf="isLoading" diameter="18"></mat-spinner>
+            <mat-icon *ngIf="!isLoading">auto_awesome</mat-icon>
+            {{ isLoading ? 'Analyse en cours par Gemini AI...' : 'Obtenir mes recommandations IA' }}
+          </button>
+        </div>
+
+      </div>
+    </mat-step>
+
+    <!-- ── ÉTAPE 2 : Résultats IA ── -->
+    <mat-step label="Recommandations IA">
+      <div class="op-step-content">
+
+        <div class="op-step-header">
+          <div class="op-step-icon orange">
+            <mat-icon>auto_awesome</mat-icon>
+          </div>
+          <div>
+            <h2 class="op-step-title">Vos recommandations personnalisées</h2>
+            <p class="op-step-sub">Générées par Gemini AI · EduGuideAI — basées sur votre profil unique</p>
+          </div>
+        </div>
+
+        <div class="op-ai-result" *ngIf="aiResult">
+          <div class="op-ai-badge">
+            <mat-icon>psychology</mat-icon>
+            <span>Analyse IA · {{ userName }}</span>
+          </div>
+          <div class="op-ai-content" [innerHTML]="formatResult(aiResult)"></div>
+        </div>
+
+        <div class="op-actions">
+          <button class="op-btn op-btn-secondary" (click)="restart()">
+            <mat-icon>refresh</mat-icon>
+            Recommencer
+          </button>
+          <button class="op-btn op-btn-outline" matStepperPrevious>
+            <mat-icon>edit</mat-icon>
+            Modifier mon profil
+          </button>
+        </div>
+
+      </div>
+    </mat-step>
+
+  </mat-stepper>
+</div>

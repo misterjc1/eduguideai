@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="left-section">
+      <div class="header">
+          <h1 class="animated-title">Sélectionnez vos Préférences</h1>
+      </div>
+
+      <!-- Affichage des choix avec cases à cocher -->
+      <div class="checkbox-list">
+          <div *ngFor="let cinematique of getCurrentItems()" class="checkbox-item animated-checkbox">
+              <input 
+                  type="checkbox" 
+                  [id]="cinematique.idCinematique"
+                  (change)="toggleSelection(cinematique)"
+                  [checked]="isSelected(cinematique)"
+              />
+              <label [for]="cinematique.idCinematique" class="dark-text">{{ cinematique.intitule }}</label>
+          </div>
+      </div>
+
+      <!-- Bouton avec spinner et texte "chargement" -->
+      <button class="submit-btn" (click)="submitSelections()" [disabled]="loading">
+        <span *ngIf="!loading">Soumettre les choix</span>
+        <span *ngIf="loading" class="spinner"></span>
+      </button>
+
+      <div *ngIf="message" class="message">
+          <p>{{ message }}</p>
+      </div>
+
+      <!-- Spinner d'indication de chargement -->
+      <div *ngIf="loading" class="loading-spinner">
+        <div class="spinner"></div>
+        <p>Chargement en cours...</p>
+      </div>
+  </div>
+
+  <div class="right-section">
+      <div class="progress-bar">
+          <div [style.width]="progressWidth"></div>
+      </div>
+
+      <!-- Compteur de choix sélectionnés -->
+      <p>{{ selectedItems.length }} / {{ maxSelection }} intérêts sélectionnés</p>
+
+      <!-- Sélection du niveau d'étude -->
+      <div class="select-container">
+          <select class="styled-select" (change)="onEducationLevelChange($event)">
+              <option value="" disabled selected>Niveau d'étude</option>
+              <option *ngFor="let niveau of niveaux" [ngValue]="niveau">
+                  {{ niveau.libelle }} - {{ niveau.filiere }}
+              </option>
+          </select>
+      </div>
+
+      <!-- Sélection des modules -->
+      <div>
+          <mat-form-field appearance="fill">
+              <mat-label>Modules déjà notés</mat-label>
+              <mat-select #matSelect [(ngModel)]="selectedNotes" (selectionChange)="onNotesChange($event)" multiple>
+                  <mat-option (click)="toggleSelectAllNotes()" [class.selected]="allNotesSelected">
+                      Tout cocher
+                  </mat-option>
+                  <mat-option *ngFor="let note of notes" [value]="note" [selected]="isNoteSelected(note)">
+                      {{ note.module }} - {{ note.valeur }}/20
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </div>
+
+      <!-- Affichage des options de carrière -->
+      <div *ngFor="let career of careerOptions" class="career-option">
+          <h4>{{ career.nameMetier }}</h4>
+          <p><strong>Niveau d'éducation requis :</strong> {{ career.niveauAcces }}</p>
+          <p>{{ career.descriptionMetier }}</p>
+          <p><strong>Offre d'emploi disponible :</strong> {{ career.statistique.offreEmploi }}</p>
+          <p><strong>Salaire moyen :</strong> {{ career.statistique.salaireMoyen }}</p>
+          <p><strong>Défis :</strong> {{ career.defis }}</p>
+      </div>
+  </div>
+</div>

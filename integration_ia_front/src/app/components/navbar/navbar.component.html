@@ -1,0 +1,123 @@
+<nav class="navbar navbar-expand-lg"
+     style="background:#ffffff; box-shadow:0 1px 6px rgba(0,0,0,0.08); position:sticky; top:0; z-index:100; padding:0 24px; min-height:64px;">
+    <div class="container-fluid">
+
+        <!-- Hamburger mobile -->
+        <button mat-icon-button class="navbar-toggler" type="button" (click)="sidebarToggle()">
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+        </button>
+
+        <!-- Droite : user + actions -->
+        <div class="collapse navbar-collapse justify-content-end" id="navigation">
+            <ul class="navbar-nav" style="align-items:center; gap:4px;">
+
+                <!-- User display -->
+                <li class="nav-item ega-user-display">
+                    <div class="ega-nav-avatar">{{ getUserInitials() }}</div>
+                    <div class="ega-nav-user-info">
+                        <span class="ega-nav-username">{{ username }}</span>
+                        <span class="ega-nav-role">{{ getNavRoleLabel() }}</span>
+                    </div>
+                </li>
+
+                <!-- Switcher compte démo -->
+                <li class="nav-item">
+                    <button mat-icon-button [matMenuTriggerFor]="demoMenu"
+                            title="Changer de compte démo"
+                            style="color:#64748B;">
+                        <mat-icon>swap_horiz</mat-icon>
+                    </button>
+                    <mat-menu #demoMenu="matMenu" xPosition="before">
+                        <div style="padding:8px 16px 4px; font-size:11px; font-weight:700; color:#888; letter-spacing:1px;">
+                            CHANGER DE COMPTE
+                        </div>
+                        <mat-divider></mat-divider>
+                        <button mat-menu-item (click)="switchUser('admin','admin123')">
+                            <mat-icon style="color:#1565C0;">admin_panel_settings</mat-icon>
+                            <span>admin — Administrateur</span>
+                        </button>
+                        <button mat-menu-item (click)="switchUser('alice.kabore','etud123')">
+                            <mat-icon style="color:#2E7D32;">school</mat-icon>
+                            <span>alice.kabore — Étudiante</span>
+                        </button>
+                        <button mat-menu-item (click)="switchUser('moussa.sawadogo','etud123')">
+                            <mat-icon style="color:#2E7D32;">school</mat-icon>
+                            <span>moussa.sawadogo — Étudiant</span>
+                        </button>
+                        <button mat-menu-item (click)="switchUser('traore.parent','parent123')">
+                            <mat-icon style="color:#E65100;">family_restroom</mat-icon>
+                            <span>traore.parent — Tuteur</span>
+                        </button>
+                        <button mat-menu-item (click)="switchUser('prof.ouedraogo','prof123')">
+                            <mat-icon style="color:#6A1B9A;">person</mat-icon>
+                            <span>prof.ouedraogo — Enseignant</span>
+                        </button>
+                    </mat-menu>
+                </li>
+
+                <!-- Notifications -->
+                <li class="nav-item">
+                    <button mat-icon-button [matMenuTriggerFor]="notifMenu"
+                            (menuOpened)="markAllRead()"
+                            title="Notifications"
+                            style="color:#64748B;">
+                        <mat-icon
+                            [matBadge]="unreadCount"
+                            matBadgeColor="warn"
+                            matBadgeSize="small"
+                            [matBadgeHidden]="unreadCount === 0">
+                            notifications
+                        </mat-icon>
+                    </button>
+                    <mat-menu #notifMenu="matMenu" xPosition="before" class="notif-menu">
+                        <div style="min-width:320px; max-width:380px;" (click)="$event.stopPropagation()">
+                            <div style="display:flex; align-items:center; justify-content:space-between; padding:12px 16px 8px;">
+                                <span style="font-weight:600; font-size:14px; color:#1E2A4A;">Notifications</span>
+                                <button mat-button color="warn" style="font-size:12px; padding:0 4px; min-width:0;"
+                                        (click)="clearNotifications()">Tout effacer</button>
+                            </div>
+                            <mat-divider></mat-divider>
+                            <div *ngIf="notifications.length === 0"
+                                 style="padding:24px 16px; text-align:center; color:#94A3B8; font-size:13px;">
+                                Aucune notification
+                            </div>
+                            <div style="max-height:360px; overflow-y:auto;">
+                                <div *ngFor="let n of notifications"
+                                     style="display:flex; gap:12px; padding:10px 16px; border-bottom:1px solid #F1F5F9;"
+                                     [style.background]="n.read ? 'transparent' : '#EFF6FF'">
+                                    <mat-icon [style.color]="notifColor(n.type)" style="flex-shrink:0; margin-top:2px; font-size:20px;">
+                                        {{ notifIcon(n.type) }}
+                                    </mat-icon>
+                                    <div style="flex:1; min-width:0;">
+                                        <div style="font-weight:600; font-size:13px; color:#1E2A4A;">{{ n.title }}</div>
+                                        <div style="font-size:12px; color:#64748B; margin-top:2px; white-space:normal;">{{ n.message }}</div>
+                                        <div style="font-size:11px; color:#94A3B8; margin-top:4px;">{{ formatTimestamp(n.timestamp) }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-menu>
+                </li>
+
+                <!-- Profil -->
+                <li class="nav-item">
+                    <button mat-icon-button (click)="updatePassWord()" title="Mon profil"
+                            style="color:#64748B;">
+                        <mat-icon>manage_accounts</mat-icon>
+                    </button>
+                </li>
+
+                <!-- Déconnexion -->
+                <li class="nav-item">
+                    <button mat-icon-button (click)="logout()" title="Se déconnecter"
+                            style="color:#64748B;">
+                        <mat-icon>logout</mat-icon>
+                    </button>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,50 @@
+<!--<div *ngIf="simulationResults.length > 0">
+    <h3>Résultats de la simulation</h3>
+    <mat-card *ngFor="let result of simulationResults">
+      <mat-card-header>
+        <mat-card-title>{{ result.matiere }}</mat-card-title>
+        <mat-card-subtitle>Note actuelle: {{ result.noteActuelle }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Effort à fournir:</strong> {{ result.effortFournir }}</p>
+        <p><strong>Points forts:</strong> {{ result.pointFort }}</p>
+        <p><strong>Domaines à améliorer:</strong> {{ result.domaineAmeliore }}</p>
+        <p><strong>Conseils personnalisés:</strong> {{ result.conseilPersonalise }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>-->
+
+  <!--<div *ngFor="let result of simulationResults">
+    <h3>{{ result.matiere }}</h3>
+    <p>Note actuelle: {{ result.noteActuelle }}</p>
+    <p>Effort à fournir: {{ result.effortFournir }}</p>
+    <p>Point fort: {{ result.pointFort }}</p> 
+    <p>Domaine à améliorer: {{ result.domaineAmeliore }}</p>
+    <p>Conseil personnalisé: {{ result.conseilPersonalise }}</p>
+  </div>-->
+  
+  <div class="simulation-container">
+    <div *ngFor="let result of simulationResults; let i = index" class="result-card">
+      <h3 class="result-title">{{ result.matiere }}</h3>
+      <!--<p class="result-detail">Note actuelle: <span class="highlight">{{ result.noteActuelle }}</span></p>-->
+      <p class="result-detail">Effort à fournir: <span class="highlight">{{ result.effortFournir }}</span></p>
+      <p class="result-detail">Point fort: <span class="highlight">{{ result.pointFort }}</span></p>
+      <p class="result-detail">Domaine à améliorer: <span class="highlight">{{ result.domaineAmeliore }}</span></p>
+      <p class="result-detail">Conseil personnalisé: <span class="highlight">{{ result.conseilPersonalise }}</span></p>
+      
+      <!-- Affichage du graphique -->
+      <!--<div *ngIf="result.graphique" class="chart-container">
+        <h4>Graphique des performances</h4>
+        <canvas #chartCanvas id="chart{{ i }}"></canvas> 
+      </div>
+    </div> -->
+    
+    <!-- Synthèse des conseils -->
+    <div *ngIf="simulationResults && simulationResults.length > 0" class="summary-container">
+      <h3>Synthèse des conseils</h3>
+      <p class="summary-text">{{ simulationResults[0].syntheseConseils }}</p>
+    </div>
+  </div>
+  
+  
+  

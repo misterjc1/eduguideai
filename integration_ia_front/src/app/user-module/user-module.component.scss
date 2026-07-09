@@ -1,0 +1,101 @@
+.auth-module {
+  background: #F8FAFC;
+  min-height: calc(100vh - 64px);
+}
+
+.auth-header {
+  background: linear-gradient(135deg, #1565C0 0%, #1E2A4A 100%);
+  padding: 28px 32px;
+  margin-bottom: 0;
+}
+
+.auth-header-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 1200px;
+}
+
+.auth-header-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  .material-icons {
+    font-size: 28px;
+    color: #ffffff;
+  }
+}
+
+.auth-title {
+  margin: 0 0 4px 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.3px;
+}
+
+.auth-subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.auth-tabs-container {
+  background: #ffffff;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.auth-tab-group {
+  ::ng-deep .mat-tab-header {
+    background: #ffffff;
+    border-bottom: 1px solid #E2E8F0;
+    padding: 0 24px;
+  }
+
+  ::ng-deep .mat-tab-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 120px;
+    padding: 0 20px;
+    height: 52px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #64748B;
+    opacity: 1;
+    transition: color 0.2s;
+
+    &.mat-tab-label-active {
+      color: #1565C0;
+      font-weight: 600;
+    }
+  }
+
+  ::ng-deep .mat-ink-bar {
+    background-color: #1565C0;
+    height: 3px;
+    border-radius: 3px 3px 0 0;
+  }
+
+  ::ng-deep .mat-tab-body-wrapper {
+    background: #F8FAFC;
+  }
+}
+
+.tab-icon {
+  font-size: 18px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+.tab-content {
+  padding: 8px 0;
+  background: #F8FAFC;
+  min-height: 400px;
+}
