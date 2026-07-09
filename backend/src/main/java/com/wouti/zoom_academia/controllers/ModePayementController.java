@@ -1,4 +1,4 @@
-﻿package com.wouti.zoom_academia.controllers;
+package com.wouti.zoom_academia.controllers;
 
 import java.io.File;
 import java.net.URL;
