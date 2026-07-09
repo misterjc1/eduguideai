@@ -7,8 +7,6 @@ import java.util.Base64;
 import java.util.Base64.Encoder;
 import java.util.Random;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
