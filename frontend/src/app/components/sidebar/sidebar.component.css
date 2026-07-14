@@ -1,10 +1,46 @@
 /* Host fills the sidebar column */
 :host {
+  position: relative;
   display: flex;
   flex-direction: column;
   flex: 1;
   height: 100%;
   overflow: hidden;
+}
+
+/* ── Bouton fermer (mobile) ── */
+.ega-sidebar-close {
+  display: none;
+  position: absolute;
+  top: 14px;
+  right: 10px;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  border-radius: 50%;
+  color: rgba(255,255,255,0.85);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.ega-sidebar-close:hover,
+.ega-sidebar-close:active {
+  background: rgba(255,255,255,0.22);
+  color: #ffffff;
+}
+
+.ega-sidebar-close i {
+  font-size: 20px;
+}
+
+@media (max-width: 991px) {
+  .ega-sidebar-close { display: flex; }
+  /* Évite que le logo passe sous le bouton fermer */
+  .ega-sidebar-logo-link { padding-right: 52px; }
 }
 
 /* ── Logo ── */

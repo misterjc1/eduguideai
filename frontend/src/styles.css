@@ -445,6 +445,16 @@ body {
     margin-left: 0 !important;
   }
 
+  /* Neutralise le translate3d(-260px) du template material-dashboard
+     (sidebar a droite a l'origine) : notre sidebar est un overlay a gauche,
+     le contenu ne doit pas bouger. Le transform detournait aussi le
+     position:fixed de l'overlay .close-layer. */
+  body.nav-open .main-panel,
+  body.nav-open .wrapper,
+  body.nav-open .navbar {
+    transform: none !important;
+  }
+
   .navbar .navbar-toggler { display: flex !important; }
 
   /* Tables : wrap dans un conteneur scrollable */

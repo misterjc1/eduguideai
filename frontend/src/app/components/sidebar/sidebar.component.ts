@@ -96,4 +96,9 @@ export class SidebarComponent implements OnInit {
       default:        return 'Utilisateur';
     }
   }
+
+  /** Ferme la sidebar mobile en déléguant au toggle de la navbar (garde l'état synchronisé) */
+  closeSidebar() {
+    (document.querySelector('.navbar-toggler') as HTMLElement)?.click();
+  }
 }
