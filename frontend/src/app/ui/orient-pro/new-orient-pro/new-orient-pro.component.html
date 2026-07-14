@@ -16,12 +16,15 @@
           </div>
         </div>
 
-        <!-- Filière -->
+        <!-- Filière (liste chargée depuis la base) -->
         <div class="op-field-group">
           <label class="op-label">Ma filière / domaine actuel *</label>
           <mat-form-field appearance="outline" class="op-field">
             <mat-icon matPrefix>school</mat-icon>
-            <input matInput formControlName="filiere" placeholder="ex: Informatique, Économie, Droit...">
+            <mat-select formControlName="filiere"
+                        [placeholder]="filieres.length ? 'Choisissez votre filière' : 'Chargement des filières...'">
+              <mat-option *ngFor="let f of filieres" [value]="f">{{ f }}</mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
 

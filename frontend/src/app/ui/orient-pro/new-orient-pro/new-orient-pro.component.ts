@@ -5,7 +5,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
 import { TokenStorageService } from 'app/user-module/service/token-storage.service';
 import { AI_ORIENTATION } from 'app/helpers/url.constants';
-import { NoteMatriculeService } from 'app/services/note-matricule.service';
+import { NiveauService } from 'app/services/niveau.service';
 
 @Component({
   selector: 'app-new-orient-pro',
@@ -20,6 +20,10 @@ export class NewOrientProComponent implements OnInit {
   aiResult = '';
   userName = '';
   error = '';
+
+  /** Filières chargées depuis la base (table niveau), avec repli statique si l'appel échoue */
+  filieres: string[] = [];
+  private readonly FILIERES_FALLBACK = ['Informatique', 'Gestion', 'Droit', 'Économie', 'Sciences', 'Autre'];
 
   interets = [
     { label: 'Technologie & Informatique', icon: 'computer', value: 'Technologie et Informatique' },
@@ -55,22 +59,39 @@ export class NewOrientProComponent implements OnInit {
     private fb: FormBuilder,
     private http: HttpClient,
     private tokenStorage: TokenStorageService,
-    private notesService: NoteMatriculeService,
+    private niveauService: NiveauService,
   ) {}
 
   ngOnInit(): void {
     const user = this.tokenStorage.getUser();
     this.userName = user?.prenom || user?.username || 'Étudiant';
 
-    const notes = this.notesService.getNotes();
-    const filiere = notes.length > 0 ? 'Informatique / Sciences' : 'Non précisée';
-
     this.profileForm = this.fb.group({
-      filiere: [filiere, Validators.required],
+      filiere: ['', Validators.required],
       interets: [[], [Validators.required, Validators.minLength(1)]],
       competences: [[], [Validators.required, Validators.minLength(1)]],
       objectif: ['', Validators.required],
       valeurs: [[], [Validators.required, Validators.minLength(1)]],
+    });
+
+    this.loadFilieres();
+  }
+
+  /** Récupère les filières distinctes depuis les niveaux en base */
+  private loadFilieres(): void {
+    this.niveauService.findAll().subscribe({
+      next: (res: any) => {
+        const niveaux = res?.payload || [];
+        const distinct = [...new Set(
+          niveaux
+            .map((n: any) => (n.filiere || '').trim())
+            .filter((f: string) => f && !/inconnue/i.test(f))
+        )] as string[];
+        this.filieres = distinct.length > 0
+          ? [...distinct.sort((a, b) => a.localeCompare(b, 'fr')), 'Autre']
+          : this.FILIERES_FALLBACK;
+      },
+      error: () => { this.filieres = this.FILIERES_FALLBACK; }
     });
   }
 

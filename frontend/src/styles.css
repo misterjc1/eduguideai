@@ -416,7 +416,9 @@ body {
 /* ── Dialogs Material ── */
 @media (max-width: 600px) {
   .mat-dialog-container { padding: 16px !important; }
-  .cdk-overlay-pane {
+  /* Seulement les overlays centrés (dialogues) — PAS les selects/menus,
+     qui sont positionnés relativement à leur champ et deborderaient. */
+  .cdk-global-overlay-wrapper > .cdk-overlay-pane {
     max-width: 98vw !important;
     width: 98vw !important;
   }

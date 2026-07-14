@@ -21,6 +21,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ComponentsModule } from 'app/components/components.module';
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
 import { UserModuleModule } from 'app/user-module/user-module.module';
@@ -120,6 +121,7 @@ import { IdleWarningDialogComponent } from './idle-warning-dialog.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatIconModule,
+    ComponentsModule,
   ],
   declarations: [
     DashboardComponent,
