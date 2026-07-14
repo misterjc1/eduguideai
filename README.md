@@ -4,6 +4,15 @@
 
 > Projet développé dans le cadre d'un stage (IBAM / UJKZ), pensé comme plateforme autonome de portfolio.
 
+## 🌐 Démo en ligne
+
+| | URL |
+|---|---|
+| **Application** | https://eduguideai-jtz7.vercel.app |
+| **API backend** | https://eduguideai-backend.onrender.com |
+
+> ⏳ **Premier chargement lent ?** Le backend est hébergé sur le plan gratuit de Render : il se met en veille après 15 minutes d'inactivité et met **2 à 4 minutes** à redémarrer à la première requête (démarrage Spring Boot). Si la connexion "tourne" longtemps, patientez puis réessayez — les requêtes suivantes sont instantanées. Aucun redémarrage manuel n'est nécessaire.
+
 ---
 
 ## Sommaire
@@ -149,8 +158,8 @@ Ces variables sont référencées dans `backend/src/main/resources/application.p
 |---|---|---|
 | `admin` | `admin123` | Administrateur |
 | `prof.ouedraogo` | `prof123` | Enseignant |
-| `alice.kabore` | `etud123` | Étudiant |
-| `moussa.sawadogo` | `etud123` | Étudiant |
+| `abdoul.bande` | `etud123` | Étudiant |
+| `manissec.hien` | `etud123` | Étudiante |
 | `traore.parent` | `parent123` | Parent / Tuteur |
 
 ## Structure du projet

@@ -22,8 +22,8 @@ export class ConnexionComponent implements OnInit {
 
   demoAccounts = [
     { username: 'admin',           password: 'admin123',   role: 'Administrateur',  icon: 'admin_panel_settings', color: '#1565C0' },
-    { username: 'alice.kabore',    password: 'etud123',    role: 'Étudiante',        icon: 'school',               color: '#2E7D32' },
-    { username: 'moussa.sawadogo', password: 'etud123',    role: 'Étudiant',         icon: 'school',               color: '#2E7D32' },
+    { username: 'abdoul.bande',    password: 'etud123',    role: 'Étudiant',         icon: 'school',               color: '#2E7D32' },
+    { username: 'manissec.hien',   password: 'etud123',    role: 'Étudiante',        icon: 'school',               color: '#2E7D32' },
     { username: 'traore.parent',   password: 'parent123',  role: 'Tuteur / Parent',  icon: 'family_restroom',      color: '#E65100' },
     { username: 'prof.ouedraogo',  password: 'prof123',    role: 'Enseignant',       icon: 'person',               color: '#6A1B9A' },
   ];
